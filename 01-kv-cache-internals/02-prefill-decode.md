@@ -86,7 +86,7 @@ $$
 以 LLaMA-3-70B（$d=8192$）、$s=2048$、FP16 为例：
 
 $$
-\text{AI}_\text{prefill} = \frac{2 \times 2048 \times 8192}{(2 \times 2048 + 8192) \times 2} \approx \frac{33.5M}{24.6K} \approx 1363 \text{ FLOP/Byte}
+\text{AI}_\text{prefill} = \frac{2 \times 2048 \times 8192}{(2 \times 2048 + 8192) \times 2} \approx \frac{33.5M}{24.6K} \approx 1365 \text{ FLOP/Byte}
 $$
 
 这远高于 H100 的 **ridge point**（约 295 FLOP/Byte for FP16），因此 Prefill 是 **compute-bound**。
