@@ -52,7 +52,7 @@ kv_per_token = 2 * num_layers * num_kv_heads * head_dim * bytes_per_element
 # = 2 * 80 * 8 * 128 * 2 = 327,680 bytes ≈ 320 KB
 
 # 如果 batch 中有 256 个请求，每个平均 2048 tokens
-total_kv = 256 * 2048 * 327680 / 1024 / 1024 / 1024  # ≈ 160 GB
+total_kv = 256 * 2048 * 327680 / 1024 / 1024 / 1024  # ≈ 160 GB (近似)
 ```
 
 当 KV Cache 占满 HBM 后，新请求无法被调度，系统吞吐量骤降。这就是 offloading 的动机——将暂时不需要的 KV Cache "借存" 到 CPU DRAM 或 NVMe，为活跃请求腾出 GPU 空间。
