@@ -91,16 +91,15 @@ E[waste] = (block_size - 1) / 2
 ```
 单个 block 的 KV Cache 大小：
   = 2 (K+V) × 32 × 8 × 128 × 2 bytes × 16 tokens
-  = 16 MB
+  = 2 MB
 
 假设同时服务 100 个请求，平均每个请求浪费 7.5 tokens：
   浪费的 block 数 ≈ 100 × 7.5 / 16 ≈ 47 个 "等效 block"
-  浪费显存 ≈ 47 × 1 MB（每个 block 1MB for per-request 部分）
   
   注意：浪费发生在每个请求的最后一个 block 内部，
   实际浪费 = 100 个 block × (7.5/16) ≈ 46.875 个 block 的等效空间
   
-总浪费 ≈ 47 MB（在 80GB 显存中可忽略不计）
+总浪费 ≈ 47 × 2 MB = 94 MB（在 80GB 显存中可忽略不计）
 ```
 
 ## 3. 外部碎片：PagedAttention 如何消除
@@ -425,17 +424,17 @@ def report_memory_fragmentation():
     reserved = torch.cuda.memory_reserved() / 1e9
     
     # 总显存
-    total = torch.cuda.get_device_properties(0).total_mem / 1e9
+    total_mem = torch.cuda.get_device_properties(0).total_mem / 1e9
     
     # 碎片指标
     fragmentation = (reserved - allocated) / reserved * 100 if reserved > 0 else 0
     
     print(f"Allocated: {allocated:.2f} GB")
     print(f"Reserved:  {reserved:.2f} GB")
-    print(f"Total:     {total:.2f} GB")
+    print(f"Total:     {total_mem:.2f} GB")
     print(f"Allocator fragmentation: {fragmentation:.1f}%")
-    print(f"Free (usable): {total - reserved:.2f} GB")
-    print(f"Free (including fragmented): {total - allocated:.2f} GB")
+    print(f"Free (usable): {total_mem - reserved:.2f} GB")
+    print(f"Free (including fragmented): {total_mem - allocated:.2f} GB")
 ```
 
 ### 7.2 vLLM 内置的 KV Cache 指标

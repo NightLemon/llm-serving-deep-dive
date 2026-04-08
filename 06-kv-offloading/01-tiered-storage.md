@@ -10,7 +10,7 @@
 
 | 层级 | 典型容量 | 带宽 | 延迟 | 每 GB 成本 | 代表硬件 |
 |------|----------|------|------|-----------|---------|
-| GPU HBM | 40-80 GB (单卡) | ~3.35 TB/s (HBM3e) | ~ns | $$$$$ | H100 (80GB), A100 (80GB), H200 (141GB) |
+| GPU HBM | 40-80 GB (单卡) | ~3.35 TB/s (HBM3) | ~ns | $$$$$ | H100 (80GB), A100 (80GB), H200 (141GB, HBM3e 4.8TB/s) |
 | CPU DRAM | 256-2048 GB | ~100 GB/s (DDR5-4800 8ch) | ~80-100 ns | $$ | DDR5 RDIMM |
 | NVMe SSD | 1-8 TB | ~7 GB/s (PCIe 5.0 x4) | ~10 μs | $ | Samsung PM9A3, Intel P5800X |
 
@@ -52,7 +52,7 @@ kv_per_token = 2 * num_layers * num_kv_heads * head_dim * bytes_per_element
 # = 2 * 80 * 8 * 128 * 2 = 327,680 bytes ≈ 320 KB
 
 # 如果 batch 中有 256 个请求，每个平均 2048 tokens
-total_kv = 256 * 2048 * 320 / 1024 / 1024 / 1024  # ≈ 160 GB
+total_kv = 256 * 2048 * 327680 / 1024 / 1024 / 1024  # ≈ 160 GB
 ```
 
 当 KV Cache 占满 HBM 后，新请求无法被调度，系统吞吐量骤降。这就是 offloading 的动机——将暂时不需要的 KV Cache "借存" 到 CPU DRAM 或 NVMe，为活跃请求腾出 GPU 空间。

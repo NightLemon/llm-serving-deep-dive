@@ -280,13 +280,13 @@ Speculative Decoding 通过小模型草稿 + 大模型验证的方式减少 deco
   = 100 × 140GB (70B FP16) = 14TB 数据读取
 
 Speculative Decoding (accept rate = 0.7, draft length = 5):
-  每轮: draft 5 tokens + verify 5 tokens
+  每轮: draft 5 tokens (5 次 draft forward) + verify 5 tokens (1 次 target forward)
   有效每轮生成: 1 + 5 × 0.7 ≈ 4.5 tokens
   生成 100 tokens: 约 22 轮
-  = 22 × (draft 读取 + target 读取)
-  ≈ 22 × (14GB + 140GB) = 3.4TB
+  = 22 × (5 次 draft 读取 + 1 次 target 读取)
+  ≈ 22 × (5 × 14GB + 140GB) = 4.6TB
   
-  节省: (14TB - 3.4TB) / 14TB = 75% 的数据读取！
+  节省: (14TB - 4.6TB) / 14TB ≈ 67% 的数据读取！
 ```
 
 但 speculative decoding 的成本优势取决于：
@@ -316,9 +316,9 @@ Batch Size  |  GPU Util  |  Tokens/s/GPU  |  Cost/M tokens
 ```bash
 python -m vllm.entrypoints.openai.api_server \
     --model meta-llama/Llama-3.1-70B-Instruct \
-    --max-num-seqs 128        # 最大并发序列数（增大 batch）
-    --max-num-batched-tokens 8192  # 每步最大 tokens
-    --gpu-memory-utilization 0.92  # 更多显存给 KV Cache
+    --max-num-seqs 128 \
+    --max-num-batched-tokens 8192 \
+    --gpu-memory-utilization 0.92
 ```
 
 ### 2.5 按需扩缩容

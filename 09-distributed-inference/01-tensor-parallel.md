@@ -339,9 +339,9 @@ def all_reduce(tensor, group):
 ───────────────────────────────────────────────
 PCIe 4.0 x16      32 GB/s             64 GB/s
 PCIe 5.0 x16      64 GB/s            128 GB/s
-NVLink 3 (A100)   300 GB/s/link      600 GB/s (总 12 links)
-NVLink 4 (H100)   450 GB/s/link      900 GB/s (总 18 links)
-NVLink 5 (B200)   900 GB/s/link     1800 GB/s (总 18 links)
+NVLink 3 (A100)   300 GB/s (总)     600 GB/s (总 12 links, 单 link 25 GB/s)
+NVLink 4 (H100)   450 GB/s (总)     900 GB/s (总 18 links, 单 link 25 GB/s)
+NVLink 5 (B200)   900 GB/s (总)    1800 GB/s (总 18 links, 单 link 50 GB/s)
 ```
 
 ### 5.2 拓扑对 TP 效率的影响

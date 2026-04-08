@@ -105,7 +105,7 @@ KV Cache per token per layer = 2 × n_kv_heads × d_h × sizeof(dtype)
 | LLaMA-3-70B | GQA-8 | 64 | 8 | 128 | 80 | 4,096 B | 320 KB |
 | LLaMA-3-8B | GQA-8 | 32 | 8 | 128 | 32 | 4,096 B | 128 KB |
 | Qwen-2.5-72B | GQA-8 | 64 | 8 | 128 | 80 | 4,096 B | 320 KB |
-| Falcon-40B | MQA | 64 | 1 | 64 | 60 | 256 B | 15 KB |
+| Falcon-40B | MQA | 128 | 1 | 64 | 60 | 256 B | 15 KB |
 | DeepSeek-V3 | MLA | 128 | — | 128 | 61 | 1,152 B | 68.6 KB |
 
 > 注：DeepSeek-V3 使用 MLA，KV Cache 维度是 d_c + d_rope = 512 + 64 = 576 元素，故 1,152 bytes。

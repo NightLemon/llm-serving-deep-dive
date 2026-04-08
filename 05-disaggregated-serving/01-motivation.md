@@ -82,14 +82,14 @@ Throughput                    │          /   (计算密集, 接近 compute roo
 
 ```
 Prefill (prompt_length=2048):
-  单层 GEMM 计算量 ≈ 2 × 2048 × 4096 × 4096 = 68.7 GFLOP
-  权重读取量 = 4096 × 4096 × 2 bytes = 33.6 MB
-  Arithmetic Intensity = 68.7 GFLOP / 33.6 MB ≈ 2048 FLOP/Byte ✓ Compute-bound
+  单层 GEMM 计算量 ≈ 2 × 2048 × 8192 × 8192 = 274.9 GFLOP
+  权重读取量 = 8192 × 8192 × 2 bytes = 134.2 MB
+  Arithmetic Intensity = 274.9 GFLOP / 134.2 MB ≈ 2048 FLOP/Byte ✓ Compute-bound
 
 Decode (batch_size=1):
-  单层 GEMM 计算量 ≈ 2 × 1 × 4096 × 4096 = 33.6 MFLOP
-  权重读取量 = 4096 × 4096 × 2 bytes = 33.6 MB
-  Arithmetic Intensity = 33.6 MFLOP / 33.6 MB ≈ 1 FLOP/Byte ✗ Memory-bound
+  单层 GEMM 计算量 ≈ 2 × 1 × 8192 × 8192 = 134.2 MFLOP
+  权重读取量 = 8192 × 8192 × 2 bytes = 134.2 MB
+  Arithmetic Intensity = 134.2 MFLOP / 134.2 MB ≈ 1 FLOP/Byte ✗ Memory-bound
 ```
 
 Prefill 的算术强度比 Decode 高了约 **2000 倍**（等于 prompt_length），这是两个阶段必须区别对待的根本原因。

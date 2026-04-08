@@ -394,7 +394,7 @@ for name, config in models.items():
     plt.plot(seq_lens, kv_sizes, marker='o', label=name, linewidth=2)
 
 plt.axhline(y=80, color='red', linestyle='--', alpha=0.5, label='H100 80GB')
-plt.axhline(y=40, color='orange', linestyle='--', alpha=0.5, label='A6000 48GB')
+plt.axhline(y=40, color='orange', linestyle='--', alpha=0.5, label='A100 40GB')
 
 plt.xscale('log', base=2)
 plt.xlabel('Sequence Length')

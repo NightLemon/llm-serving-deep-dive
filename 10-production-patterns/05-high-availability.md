@@ -254,10 +254,10 @@ OOM 恢复流程:
 ```bash
 python -m vllm.entrypoints.openai.api_server \
     --model meta-llama/Llama-3.1-70B-Instruct \
-    --gpu-memory-utilization 0.90    # 保留 10% 安全余量 \
-    --max-num-seqs 64                # 限制并发序列数 \
-    --max-model-len 8192             # 限制最大序列长度 \
-    --max-num-batched-tokens 4096    # 限制每步 token 数
+    --gpu-memory-utilization 0.90 \
+    --max-num-seqs 64 \
+    --max-model-len 8192 \
+    --max-num-batched-tokens 4096
 ```
 
 ### 3.2 进程级自动重启

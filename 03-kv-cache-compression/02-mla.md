@@ -169,11 +169,11 @@ score(t, s) = [Q_t^C, Q_t^R] × [K_s^C, K_s^R]^T
 因为 $K_t^R$ 需要包含位置信息且无法从 $c_t^{KV}$ 中恢复，所以 KV Cache 需要额外存储 RoPE Key：
 
 ```
-MLA KV Cache per token per layer = d_c + d_h^R × n_h
+MLA KV Cache per token per layer = d_c + d_h^R
 
 DeepSeek-V2 的配置：
   d_c = 512        (latent vector)
-  d_h^R = 64       (RoPE head dim, 共享的)
+  d_h^R = 64       (RoPE head dim, 所有 heads 共享，只存一份)
   
   总计 = 512 + 64 = 576 per token per layer
   对比 MHA = 2 × 128 × 128 = 32,768 per token per layer

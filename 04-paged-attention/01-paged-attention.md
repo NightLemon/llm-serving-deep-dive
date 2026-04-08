@@ -208,14 +208,14 @@ def append_token(block_table, beam_id, token_kv):
 │                                                             │
 │  物理 Block 池: [0][1][2][3][4][5][6][7][8][9]...           │
 │                                                             │
-│  Request A (10 tokens): block 7 → block 3 (仅 2 个 block)   │
-│  Request B (20 tokens): block 1 → block 5 → block 9        │
-│  空闲 blocks: 0, 2, 4, 6, 8, ...                           │
+│  Request A (10 tokens): block 7 (仅 1 个 block)              │
+│  Request B (20 tokens): block 1 → block 5 (2 个 block)       │
+│  空闲 blocks: 0, 2, 3, 4, 6, 8, 9, ...                      │
 │                                                             │
 │  浪费: 仅最后一个 block 的内部碎片                             │
 │  Request A: 10 tokens / 16 = 0.625 blocks → 1 block 浪费 6  │
-│  Request B: 20 tokens / 16 = 1.25 blocks → 1 block 浪费 12  │
-│  浪费率: (6 + 12) / (16 * 5) ≈ 22% (极短序列的最坏情况)      │
+│  Request B: 20 tokens / 16 = 1.25 blocks → 2 blocks 浪费 12 │
+│  浪费率: (6 + 12) / (16 * 3) ≈ 37% (极短序列的最坏情况)      │
 │  典型浪费率: < 4%                                            │
 └─────────────────────────────────────────────────────────────┘
 ```
