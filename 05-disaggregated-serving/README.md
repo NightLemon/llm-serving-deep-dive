@@ -114,9 +114,9 @@ Decode Node 2 (A100 x 2, TP=2) ← requests batch 2
 
 ## 📁 文件清单
 
-- [ ] `01-motivation.md` — 为什么要分离
-- [ ] `02-architecture.md` — 架构设计
-- [ ] `03-kv-transfer.md` — KV Transfer 协议
-- [ ] `04-vllm-disagg.md` — vLLM 源码分析
-- [ ] `05-when-to-use.md` — 决策指南
-- [ ] `exercises.md` — 动手练习
+- [x] `01-motivation.md` — 为什么要分离
+- [x] `02-architecture.md` — 架构设计
+- [x] `03-kv-transfer.md` — KV Transfer 协议
+- [x] `04-vllm-disagg.md` — vLLM 源码分析
+- [x] `05-when-to-use.md` — 决策指南
+- [x] `exercises.md` — 动手练习

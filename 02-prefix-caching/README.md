@@ -86,8 +86,8 @@
 
 ## 📁 文件清单
 
-- [ ] `01-principles.md` — 前缀缓存原理
-- [ ] `02-vllm-apc.md` — vLLM APC 源码分析
-- [ ] `03-radix-attention.md` — SGLang RadixAttention
-- [ ] `04-api-caching.md` — API 提供商 Prompt Caching 实践
-- [ ] `exercises.md` — 动手练习（测量 cache hit rate）
+- [x] `01-principles.md` — 前缀缓存原理
+- [x] `02-vllm-apc.md` — vLLM APC 源码分析
+- [x] `03-radix-attention.md` — SGLang RadixAttention
+- [x] `04-api-caching.md` — API 提供商 Prompt Caching 实践
+- [x] `exercises.md` — 动手练习（测量 cache hit rate）

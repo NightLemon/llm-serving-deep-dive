@@ -114,9 +114,9 @@ schedule() {
 
 ## 📁 文件清单
 
-- [ ] `01-continuous-batching.md` — Continuous Batching 深入
-- [ ] `02-vllm-scheduler.md` — vLLM Scheduler 源码走读
-- [ ] `03-chunked-prefill.md` — Chunked Prefill
-- [ ] `04-priority-fairness.md` — 优先级与公平性
-- [ ] `05-dbo.md` — Dual Batch Overlap
-- [ ] `exercises.md` — 动手练习（调度参数调优实验）
+- [x] `01-continuous-batching.md` — Continuous Batching 深入
+- [x] `02-vllm-scheduler.md` — vLLM Scheduler 源码走读
+- [x] `03-chunked-prefill.md` — Chunked Prefill
+- [x] `04-priority-fairness.md` — 优先级与公平性
+- [x] `05-dbo.md` — Dual Batch Overlap
+- [x] `exercises.md` — 动手练习（调度参数调优实验）

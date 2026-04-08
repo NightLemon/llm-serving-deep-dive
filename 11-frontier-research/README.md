@@ -124,9 +124,9 @@
 
 ## 📁 文件清单
 
-- [ ] `01-hybrid-kv-cache.md` — Hybrid KV Cache Manager
-- [ ] `02-attention-innovations.md` — Attention 架构创新
-- [ ] `03-compilation.md` — 推理编译优化
-- [ ] `04-cost-frontier.md` — 推理成本前沿
-- [ ] `05-paper-list.md` — 论文阅读清单（定期更新）
-- [ ] `06-trends.md` — 技术趋势展望
+- [x] `01-hybrid-kv-cache.md` — Hybrid KV Cache Manager
+- [x] `02-attention-innovations.md` — Attention 架构创新
+- [x] `03-compilation.md` — 推理编译优化
+- [x] `04-cost-frontier.md` — 推理成本前沿
+- [x] `05-paper-list.md` — 论文阅读清单（定期更新）
+- [x] `06-trends.md` — 技术趋势展望
