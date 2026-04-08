@@ -85,10 +85,10 @@ def compute_attention_ai(batch_size, seq_len, head_dim, num_heads):
     # Bytes: 读取 KV cache = 2 * B * num_heads * S * head_dim * 2 (FP16)
     
     decode_flops = 2 * batch_size * num_heads * 1 * seq_len * head_dim
-    decode_bytes = 2 * num_heads * seq_len * head_dim * 2  # 读取 KV cache
+    decode_bytes = 2 * batch_size * num_heads * seq_len * head_dim * 2  # 读取 KV cache
     
     decode_ai = decode_flops / decode_bytes
-    # 对于 head_dim=128: AI = 2*B*1*128 / (2*S*128*2) = B/S (非常小!)
+    # AI ≈ 1/S (非常小!)
     
     # Prefill 阶段 
     prefill_flops = 2 * batch_size * num_heads * seq_len * seq_len * head_dim

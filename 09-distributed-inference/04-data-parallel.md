@@ -261,6 +261,7 @@ class DPRouter:
         self.dp_size = dp_size
         self.policy = policy
         self.replica_loads = [0] * dp_size  # 各 replica 当前负载
+        self.counter = 0  # round_robin 计数器
     
     def route(self, request: Request) -> int:
         """选择目标 replica"""

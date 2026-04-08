@@ -126,18 +126,18 @@ class SwapManager:
 单个 block 的 KV Cache 大小：
   = 2 (K+V) × 32 (layers) × 8 (heads) × 128 (dim) × 16 (tokens) × 2 (bytes)
   = 2 × 32 × 8 × 128 × 16 × 2
-  = 16,777,216 bytes ≈ 16 MB
+  = 2,097,152 bytes ≈ 2 MB
 
 换出 10 个 block（~160 tokens 的 KV）：
-  = 160 MB
-  传输时间 ≈ 160 / 25000 ≈ 6.4 ms
+  = 20 MB
+  传输时间 ≈ 20 / 25000 ≈ 0.8 ms
 
 换出 100 个 block（~1600 tokens 的 KV）：
-  = 1.6 GB
-  传输时间 ≈ 1.6 / 25 ≈ 64 ms
+  = 200 MB
+  传输时间 ≈ 200 / 25000 ≈ 8 ms
 ```
 
-对于长序列，swap 的传输延迟可能达到几十毫秒，影响其他请求的 decode latency。
+对于长序列，swap 的传输延迟可能达到数毫秒到数十毫秒级别，影响其他请求的 decode latency。
 
 ### 2.4 优缺点
 

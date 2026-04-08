@@ -14,21 +14,21 @@ KV Cache 的数据量随模型大小和序列长度线性增长：
 
 | 模型 | seq_len=1K | seq_len=4K | seq_len=16K | seq_len=128K |
 |------|-----------|-----------|------------|-------------|
-| Llama-3-8B (32L, 8 KV heads) | 32 MB | 128 MB | 512 MB | 4 GB |
-| Llama-3-70B (80L, 8 KV heads) | 80 MB | 320 MB | 1.28 GB | 10.24 GB |
-| Llama-3-405B (126L, 16 KV heads) | 504 MB | 2.02 GB | 8.06 GB | 64.5 GB |
+| Llama-3-8B (32L, 8 KV heads) | 128 MB | 512 MB | 2 GB | 16 GB |
+| Llama-3-70B (80L, 8 KV heads) | 320 MB | 1.28 GB | 5.12 GB | 40.96 GB |
+| Llama-3-405B (126L, 16 KV heads) | 2.02 GB | 8.06 GB | 32.26 GB | 258 GB |
 
 > 计算公式: KV Cache Size = num_layers × 2 × num_kv_heads × head_dim × seq_len × dtype_size
 
-对于 Llama-3-70B + 128K context，需要传输 **10.24 GB** 的 KV Cache。使用不同互联技术的传输时间：
+对于 Llama-3-70B + 128K context，需要传输 **40.96 GB** 的 KV Cache。使用不同互联技术的传输时间：
 
-| 互联方式 | 有效带宽 | 传输 10.24 GB 耗时 |
+| 互联方式 | 有效带宽 | 传输 40.96 GB 耗时 |
 |---------|---------|-------------------|
-| PCIe Gen5 x16 | ~50 GB/s | ~205 ms |
-| InfiniBand HDR (200 Gbps) | ~23 GB/s | ~445 ms |
-| InfiniBand NDR (400 Gbps) | ~46 GB/s | ~223 ms |
-| NVLink (A100, 单向) | ~300 GB/s | ~34 ms |
-| NVLink (H100, 单向) | ~450 GB/s | ~23 ms |
+| PCIe Gen5 x16 | ~50 GB/s | ~819 ms |
+| InfiniBand HDR (200 Gbps) | ~23 GB/s | ~1.78 s |
+| InfiniBand NDR (400 Gbps) | ~46 GB/s | ~890 ms |
+| NVLink (A100, 单向) | ~300 GB/s | ~137 ms |
+| NVLink (H100, 单向) | ~450 GB/s | ~91 ms |
 
 可以看到，**跨节点传输**是瓶颈所在——即使用 400 Gbps IB，传输一个长序列的 KV Cache 也需要几百毫秒。
 

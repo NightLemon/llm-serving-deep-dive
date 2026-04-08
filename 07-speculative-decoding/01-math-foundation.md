@@ -226,10 +226,10 @@ $$
 | $\alpha$ | $\gamma=3$ | $\gamma=5$ | $\gamma=7$ |
 |----------|-----------|-----------|-----------|
 | 0.5      | 1.88      | 1.97      | 1.99      |
-| 0.7      | 2.95      | 3.64      | 3.99      |
-| 0.8      | 3.69      | 5.03      | 6.01      |
-| 0.9      | 4.69      | 7.10      | 9.17      |
-| 0.95     | 5.22      | 8.45      | 11.57     |
+| 0.7      | 2.53      | 3.08      | 3.40      |
+| 0.8      | 3.36      | 4.46      | 5.23      |
+| 0.9      | 4.10      | 5.90      | 7.52      |
+| 0.95     | 4.52      | 6.81      | 9.02      |
 
 **关键观察**：
 
@@ -389,8 +389,8 @@ def speculative_decoding(target_model, draft_model, prefix, gamma, max_tokens):
 | 论文 | 核心贡献 |
 |------|----------|
 | [Leviathan et al., 2022](https://arxiv.org/abs/2211.17192) | 提出 Speculative Decoding 原始框架和无损性证明 |
-| [Chen et al., 2023](https://arxiv.org/abs/2302.01318) | 独立提出类似方法（Accelerating LLM Inference with Staged Speculative Decoding） |
-| [Sun et al., 2024](https://arxiv.org/abs/2401.10774) | Medusa: Typical Acceptance 策略 |
+| [Chen et al., 2023](https://arxiv.org/abs/2302.01318) | 独立提出类似方法（Accelerating Large Language Model Decoding with Speculative Sampling） |
+| [Cai et al., 2024](https://arxiv.org/abs/2401.10774) | Medusa: 多头并行 draft + Typical Acceptance 策略 |
 | [Xia et al., 2024](https://arxiv.org/abs/2304.04487) | Unlocking Efficiency in LLM Inference（speculative decoding 综述） |
 
 ---
