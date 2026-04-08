@@ -133,10 +133,10 @@
 
 ## 📁 文件清单
 
-- [ ] `01-routing.md` — Cache-Aware 路由
-- [ ] `02-monitoring.md` — 监控与可观测性
-- [ ] `03-profiling.md` — 性能 Profiling
-- [ ] `04-cost-optimization.md` — 成本优化
-- [ ] `05-high-availability.md` — 故障恢复与高可用
-- [ ] `06-model-updates.md` — 模型更新与灰度发布
-- [ ] `exercises.md` — 动手练习（搭建监控 dashboard）
+- [x] `01-routing.md` — Cache-Aware 路由
+- [x] `02-monitoring.md` — 监控与可观测性
+- [x] `03-profiling.md` — 性能 Profiling
+- [x] `04-cost-optimization.md` — 成本优化
+- [x] `05-high-availability.md` — 故障恢复与高可用
+- [x] `06-model-updates.md` — 模型更新与灰度发布
+- [x] `exercises.md` — 动手练习（搭建监控 dashboard）

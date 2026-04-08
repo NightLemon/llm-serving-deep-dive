@@ -122,10 +122,10 @@
 
 ## 📁 文件清单
 
-- [ ] `01-math-foundation.md` — 数学基础
-- [ ] `02-eagle.md` — EAGLE 系列
-- [ ] `03-medusa.md` — Medusa
-- [ ] `04-mtp.md` — Multi-Token Prediction
-- [ ] `05-draft-selection.md` — Draft Model 选择
-- [ ] `06-tree-attention.md` — Tree Attention
-- [ ] `exercises.md` — 动手练习（对比不同投机解码方案的加速比）
+- [x] `01-math-foundation.md` — 数学基础
+- [x] `02-eagle.md` — EAGLE 系列
+- [x] `03-medusa.md` — Medusa
+- [x] `04-mtp.md` — Multi-Token Prediction
+- [x] `05-draft-selection.md` — Draft Model 选择
+- [x] `06-tree-attention.md` — Tree Attention
+- [x] `exercises.md` — 动手练习（对比不同投机解码方案的加速比）

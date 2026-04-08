@@ -69,7 +69,7 @@
 
 ## 📁 文件清单
 
-- [ ] `01-memory-layout.md` — KV Cache 内存布局
-- [ ] `02-prefill-decode.md` — Prefill vs Decode
-- [ ] `03-memory-calculation.md` — 显存占用精确计算
-- [ ] `exercises.md` — 动手练习
+- [x] `01-memory-layout.md` — KV Cache 内存布局
+- [x] `02-prefill-decode.md` — Prefill vs Decode
+- [x] `03-memory-calculation.md` — 显存占用精确计算
+- [x] `exercises.md` — 动手练习

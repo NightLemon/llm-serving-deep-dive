@@ -89,8 +89,8 @@
 
 ## 📁 文件清单
 
-- [ ] `01-quantization.md` — KV Cache 量化
-- [ ] `02-mla.md` — MLA 深度解读
-- [ ] `03-selective-caching.md` — 选择性缓存
-- [ ] `04-gqa-mqa.md` — GQA/MQA 深度分析
-- [ ] `exercises.md` — 动手练习
+- [x] `01-quantization.md` — KV Cache 量化
+- [x] `02-mla.md` — MLA 深度解读
+- [x] `03-selective-caching.md` — 选择性缓存
+- [x] `04-gqa-mqa.md` — GQA/MQA 深度分析
+- [x] `exercises.md` — 动手练习

@@ -100,9 +100,9 @@
 
 ## 📁 文件清单
 
-- [ ] `01-tiered-storage.md` — 分层存储原理
-- [ ] `02-vllm-offloading.md` — vLLM Offloading 源码分析
-- [ ] `03-extended-caching.md` — OpenAI Extended Prompt Caching
-- [ ] `04-lmcache.md` — LMCache 集成
-- [ ] `05-flexkv.md` — FlexKV 与未来方向
-- [ ] `exercises.md` — 动手练习
+- [x] `01-tiered-storage.md` — 分层存储原理
+- [x] `02-vllm-offloading.md` — vLLM Offloading 源码分析
+- [x] `03-extended-caching.md` — OpenAI Extended Prompt Caching
+- [x] `04-lmcache.md` — LMCache 集成
+- [x] `05-flexkv.md` — FlexKV 与未来方向
+- [x] `exercises.md` — 动手练习

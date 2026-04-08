@@ -127,10 +127,10 @@ else:
 
 ## 📁 文件清单
 
-- [ ] `01-tensor-parallel.md` — Tensor Parallel 推理
-- [ ] `02-pipeline-parallel.md` — Pipeline Parallel 推理
-- [ ] `03-expert-parallel.md` — Expert Parallel (MoE)
-- [ ] `04-data-parallel.md` — Data Parallel 推理
-- [ ] `05-context-parallel.md` — Context Parallel
-- [ ] `06-hybrid-parallelism.md` — 多维并行组合决策
-- [ ] `exercises.md` — 动手练习
+- [x] `01-tensor-parallel.md` — Tensor Parallel 推理
+- [x] `02-pipeline-parallel.md` — Pipeline Parallel 推理
+- [x] `03-expert-parallel.md` — Expert Parallel (MoE)
+- [x] `04-data-parallel.md` — Data Parallel 推理
+- [x] `05-context-parallel.md` — Context Parallel
+- [x] `06-hybrid-parallelism.md` — 多维并行组合决策
+- [x] `exercises.md` — 动手练习

@@ -97,8 +97,8 @@
 
 ## 📁 文件清单
 
-- [ ] `01-paged-attention.md` — PagedAttention 原理深入
-- [ ] `02-vllm-memory.md` — vLLM v1 内存管理源码走读
-- [ ] `03-preemption.md` — Preemption 策略
-- [ ] `04-fragmentation.md` — 内存碎片分析
-- [ ] `exercises.md` — 动手练习
+- [x] `01-paged-attention.md` — PagedAttention 原理深入
+- [x] `02-vllm-memory.md` — vLLM v1 内存管理源码走读
+- [x] `03-preemption.md` — Preemption 策略
+- [x] `04-fragmentation.md` — 内存碎片分析
+- [x] `exercises.md` — 动手练习
