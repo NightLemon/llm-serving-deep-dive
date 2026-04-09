@@ -3,9 +3,9 @@
   max-width: 1440px;
 }
 
-/* 内容区占满可用宽度 */
+/* 内容区限制行宽以提升 CJK 阅读舒适度 */
 .md-content {
-  max-width: none;
+  max-width: 960px;
 }
 
 /* 表格不被截断 */

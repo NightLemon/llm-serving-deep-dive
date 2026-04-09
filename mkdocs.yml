@@ -146,6 +146,8 @@ nav:
     - 11.4 成本前沿: 11-frontier-research/04-cost-frontier.md
     - 11.5 论文清单: 11-frontier-research/05-paper-list.md
     - 11.6 趋势展望: 11-frontier-research/06-trends.md
+    - 练习: 11-frontier-research/exercises.md
   - 资源:
+    - 概述: resources/README.md
     - 术语表: resources/glossary.md
     - 工具: resources/tools.md

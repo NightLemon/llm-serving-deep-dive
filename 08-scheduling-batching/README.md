@@ -1,6 +1,6 @@
 # Ch08: 调度与批处理
 
-> 前置知识：Ch04 PagedAttention、[gpu-ai-systems-learning/07/03-continuous-batching.md](../../gpu-ai-systems-learning/07-inference-optimization/03-continuous-batching.md)
+> 前置知识：Ch04 PagedAttention、[gpu-ai-systems-learning/07/03-continuous-batching.md](https://github.com/NightLemon/gpu-ai-systems-learning/blob/master/07-inference-optimization/03-continuous-batching.md)
 
 ## 🎯 学习目标
 

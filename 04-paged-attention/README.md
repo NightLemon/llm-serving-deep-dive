@@ -1,6 +1,6 @@
 # Ch04: PagedAttention 与内存管理
 
-> 前置知识：Ch01 KV Cache 深度剖析、[gpu-ai-systems-learning/07/06-vllm-architecture.md](../../gpu-ai-systems-learning/07-inference-optimization/06-vllm-architecture.md)
+> 前置知识：Ch01 KV Cache 深度剖析、[gpu-ai-systems-learning/07/06-vllm-architecture.md](https://github.com/NightLemon/gpu-ai-systems-learning/blob/master/07-inference-optimization/06-vllm-architecture.md)
 
 ## 🎯 学习目标
 

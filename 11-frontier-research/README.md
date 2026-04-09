@@ -1,5 +1,7 @@
 # Ch11: 前沿研究
 
+> 前置知识：Ch03 KV Cache 压缩、Ch07 投机解码、Ch10 生产环境实践
+
 > 本章跟踪 LLM Serving 领域最新的研究进展，定期更新。
 
 ## 🎯 学习目标
@@ -122,6 +124,16 @@
 - 跨模型的 KV Cache 共享（同族模型间复用 KV）
 - 端侧推理与云端协同（KV Cache 在设备间流动）
 
+## 📄 参考论文
+
+> 完整论文清单见 [05-paper-list.md](05-paper-list.md)，以下列出本章各节涉及的核心论文。
+
+| 论文 | 年份 | 核心贡献 |
+|------|------|----------|
+| [Jamba: A Hybrid Transformer-Mamba Language Model](https://arxiv.org/abs/2403.19887) | 2024 | Transformer + Mamba 混合架构，推动 Hybrid KV Cache 需求 |
+| [FlashInfer: Efficient and Customizable Attention Engine](https://arxiv.org/abs/2501.01005) | 2025 | 高性能可定制 attention kernel 库 |
+| [DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of-Experts Language Model](https://arxiv.org/abs/2405.04434) | 2024 | MLA 架构，KV Cache 压缩代表作 |
+
 ## 📁 文件清单
 
 - [x] `01-hybrid-kv-cache.md` — Hybrid KV Cache Manager
@@ -130,3 +142,4 @@
 - [x] `04-cost-frontier.md` — 推理成本前沿
 - [x] `05-paper-list.md` — 论文阅读清单（定期更新）
 - [x] `06-trends.md` — 技术趋势展望
+- [x] `exercises.md` — 动手练习（论文精读与趋势分析）

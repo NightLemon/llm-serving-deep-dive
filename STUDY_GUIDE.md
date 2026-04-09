@@ -1,6 +1,6 @@
 # GPU & AI Systems + LLM Serving 综合学习规划
 
-> 本指南整合 [gpu-ai-systems-learning](../gpu-ai-systems-learning)（基础篇，10 章）和 [llm-serving-deep-dive](../llm-serving-deep-dive)（进阶篇，11 章）两份材料，给出一条从零到生产的完整学习路线。
+> 本指南整合 [gpu-ai-systems-learning](https://github.com/NightLemon/gpu-ai-systems-learning)（基础篇，10 章）和 [llm-serving-deep-dive](https://github.com/NightLemon/llm-serving-deep-dive)（进阶篇，11 章）两份材料，给出一条从零到生产的完整学习路线。
 
 ## 两份材料的关系
 
@@ -47,47 +47,32 @@ Ch09 实战项目
 
 适合想系统掌握从 GPU 硬件到生产部署全栈知识的人。
 
-```
-                    ┌─────────────────────────────────────┐
-                    │  Phase 0: 建立全局认知 (Week 1)      │
-                    │  gpu: Ch00 行业全景                   │
-                    └──────────────┬──────────────────────┘
-                                   │
-                    ┌──────────────▼──────────────────────┐
-                    │  Phase 1: 硬件与编程基础 (Week 2-5)   │
-                    │  gpu: Ch01 体系结构                   │
-                    │  gpu: Ch02 GPU 架构          ⭐ 重点  │
-                    │  gpu: Ch03 CUDA 编程          ⭐ 重点  │
-                    │  gpu: Ch04 Transformer 深入          │
-                    └──────────────┬──────────────────────┘
-                                   │
-              ┌────────────────────┼────────────────────┐
-              │                    │                     │
-   ┌──────────▼─────────┐  ┌──────▼───────┐  ┌─────────▼──────────┐
-   │ Phase 2A: 训练      │  │ Phase 2B:    │  │ Phase 2C:          │
-   │ (Week 6-8)         │  │ 推理入门      │  │ 推理深入            │
-   │                    │  │ (Week 6-7)   │  │ (Week 8-13)        │
-   │ gpu: Ch05 训练基础  │  │              │  │                    │
-   │ gpu: Ch06 分布式训练 │  │ gpu: Ch07    │  │ serving: Ch01-06   │
-   │                    │  │ 推理优化      │  │ KV Cache 全栈       │
-   └────────┬───────────┘  └──────┬───────┘  └─────────┬──────────┘
-            │                     │                     │
-            └─────────────────────┼─────────────────────┘
-                                  │
-                    ┌─────────────▼───────────────────────┐
-                    │  Phase 3: 高级推理 (Week 14-17)       │
-                    │  serving: Ch07 投机解码               │
-                    │  serving: Ch08 调度与批处理            │
-                    │  serving: Ch09 分布式推理              │
-                    └──────────────┬──────────────────────┘
-                                   │
-                    ┌──────────────▼──────────────────────┐
-                    │  Phase 4: 生产与前沿 (Week 18-20)     │
-                    │  gpu: Ch08 基础设施                   │
-                    │  serving: Ch10 生产环境实践            │
-                    │  serving: Ch11 前沿研究               │
-                    │  gpu: Ch09 实战项目                   │
-                    └─────────────────────────────────────┘
+```mermaid
+graph TD
+    P0["Phase 0: 建立全局认知 (Week 1)<br/>gpu: Ch00 行业全景"]
+    P1["Phase 1: 硬件与编程基础 (Week 2-5)<br/>gpu: Ch01 体系结构<br/>gpu: Ch02 GPU 架构 ⭐<br/>gpu: Ch03 CUDA 编程 ⭐<br/>gpu: Ch04 Transformer 深入"]
+    P2A["Phase 2A: 训练 (Week 6-8)<br/>gpu: Ch05 训练基础<br/>gpu: Ch06 分布式训练"]
+    P2B["Phase 2B: 推理入门 (Week 6-7)<br/>gpu: Ch07 推理优化"]
+    P2C["Phase 2C: 推理深入 (Week 8-13)<br/>serving: Ch01-06<br/>KV Cache 全栈"]
+    P3["Phase 3: 高级推理 (Week 14-17)<br/>serving: Ch07 投机解码<br/>serving: Ch08 调度与批处理<br/>serving: Ch09 分布式推理"]
+    P4["Phase 4: 生产与前沿 (Week 18-20)<br/>gpu: Ch08 基础设施<br/>serving: Ch10 生产环境实践<br/>serving: Ch11 前沿研究<br/>gpu: Ch09 实战项目"]
+
+    P0 --> P1
+    P1 --> P2A
+    P1 --> P2B
+    P1 --> P2C
+    P2A --> P3
+    P2B --> P3
+    P2C --> P3
+    P3 --> P4
+
+    style P0 fill:#e8f5e9
+    style P1 fill:#e1f5fe
+    style P2A fill:#fff3e0
+    style P2B fill:#fff3e0
+    style P2C fill:#fff3e0
+    style P3 fill:#fce4ec
+    style P4 fill:#f3e5f5
 ```
 
 ### 详细周计划
