@@ -2,8 +2,6 @@ site_name: LLM Serving 深度学习指南
 site_url: https://nightlemon.github.io/llm-serving-deep-dive/
 repo_url: https://github.com/NightLemon/llm-serving-deep-dive
 repo_name: NightLemon/llm-serving-deep-dive
-docs_dir: .
-site_dir: .site
 
 theme:
   name: material
