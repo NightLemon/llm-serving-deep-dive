@@ -31,7 +31,7 @@ jobs:
         run: |
           mkdir -p docs
           # Copy all content directories and files
-          for item in README.md STUDY_GUIDE.md 0*/ 1*/ resources/ javascripts/; do
+          for item in README.md STUDY_GUIDE.md 0*/ 1*/ resources/ javascripts/ stylesheets/; do
             [ -e "$item" ] && cp -r "$item" docs/
           done
 

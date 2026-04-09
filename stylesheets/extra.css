@@ -1,0 +1,21 @@
+/* 拉宽内容区域 */
+.md-grid {
+  max-width: 1440px;
+}
+
+/* 内容区占满可用宽度 */
+.md-content {
+  max-width: none;
+}
+
+/* 表格不被截断 */
+.md-typeset table:not([class]) {
+  display: table;
+  width: 100%;
+}
+
+/* 代码块横向滚动而不溢出 */
+.md-typeset pre {
+  max-width: 100%;
+  overflow-x: auto;
+}
