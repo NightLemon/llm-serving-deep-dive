@@ -1,6 +1,6 @@
 # Ch01: KV Cache 深度剖析
 
-> 前置知识：[gpu-ai-systems-learning/07/01-kv-cache.md](../../gpu-ai-systems-learning/07-inference-optimization/01-kv-cache.md)
+> 前置知识：[gpu-ai-systems-learning/07/01-kv-cache.md](https://github.com/NightLemon/gpu-ai-systems-learning/blob/master/07-inference-optimization/01-kv-cache.md)
 
 ## 🎯 学习目标
 

@@ -1,6 +1,6 @@
 # Ch09: 分布式推理
 
-> 前置知识：Ch04 PagedAttention、Ch08 调度与批处理、[gpu-ai-systems-learning/06-distributed-training](../../gpu-ai-systems-learning/06-distributed-training/)
+> 前置知识：Ch04 PagedAttention、Ch08 调度与批处理、[gpu-ai-systems-learning/06-distributed-training](https://github.com/NightLemon/gpu-ai-systems-learning/tree/master/06-distributed-training)
 
 ## 🎯 学习目标
 

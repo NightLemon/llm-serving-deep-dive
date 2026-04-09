@@ -13,7 +13,7 @@
 
 那么这份指南就是为你准备的。
 
-### 与 [gpu-ai-systems-learning](../gpu-ai-systems-learning) 的关系
+### 与 [gpu-ai-systems-learning](https://github.com/NightLemon/gpu-ai-systems-learning) 的关系
 
 | 维度 | gpu-ai-systems-learning | 本仓库 |
 |------|------------------------|--------|
@@ -48,7 +48,6 @@ graph TD
 
     D --> E[05 Prefill-Decode 分离]
     D --> F[06 KV Cache 卸载]
-    B --> E
 
     A --> G[07 投机解码]
 
@@ -65,17 +64,17 @@ graph TD
     G --> K
     C --> K
 
-    style A fill:#e1f5fe
-    style B fill:#e1f5fe
-    style C fill:#e1f5fe
-    style D fill:#e1f5fe
-    style E fill:#fff3e0
-    style F fill:#fff3e0
-    style G fill:#fff3e0
-    style H fill:#fff3e0
-    style I fill:#fce4ec
-    style J fill:#fce4ec
-    style K fill:#fce4ec
+    style A fill:#1565c0,color:#fff
+    style B fill:#1565c0,color:#fff
+    style C fill:#1565c0,color:#fff
+    style D fill:#1565c0,color:#fff
+    style E fill:#e65100,color:#fff
+    style F fill:#e65100,color:#fff
+    style G fill:#e65100,color:#fff
+    style H fill:#e65100,color:#fff
+    style I fill:#b71c1c,color:#fff
+    style J fill:#b71c1c,color:#fff
+    style K fill:#b71c1c,color:#fff
 ```
 
 **颜色说明：**
@@ -123,7 +122,7 @@ graph TD
 - ✅ 知道 KV Cache 的基本概念和作用
 - ✅ 用过 vLLM 或类似框架部署过模型
 - ✅ 有 Python 编程经验，能读 PyTorch 代码
-- ✅ （推荐）学完 [gpu-ai-systems-learning](../gpu-ai-systems-learning) Ch01-07
+- ✅ （推荐）学完 [gpu-ai-systems-learning](https://github.com/NightLemon/gpu-ai-systems-learning) Ch01-07
 
 ## 📚 核心参考
 

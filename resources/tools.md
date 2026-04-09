@@ -41,5 +41,5 @@
 | 工具 | 链接 | 说明 |
 |------|------|------|
 | LMCache | https://github.com/LMCache/LMCache | 独立 KV Cache 管理库 |
-| Mooncake | - | 月之暗面 KV Transfer 方案 |
-| NIXL | - | NVIDIA KV Transfer 库 |
+| Mooncake | https://github.com/kvcache-ai/Mooncake | 月之暗面 KV Transfer 方案 |
+| NIXL | https://github.com/ai-dynamo/nixl | NVIDIA KV Transfer 库 |

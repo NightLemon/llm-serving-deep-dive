@@ -604,8 +604,8 @@ GPU 显存分配:
 可用 KV Cache: 288 - 140 - 16 (激活+其他) ≈ 132 GB
 
 KV Cache 每 token (所有层, 每卡):
-  = 2 × (80/4) × 8 × 128 × 2 bytes (TP=4, 每卡 20 层)
-  = 2 × 20 × 8 × 128 × 2 = 81,920 bytes ≈ 80 KB/token
+  = 2 × 80 × (8/4) × 128 × 2 bytes (TP=4, 每卡 2 个 KV heads)
+  = 2 × 80 × 2 × 128 × 2 = 81,920 bytes ≈ 80 KB/token
 
 最大 token 容量: 132 GB / 80 KB ≈ 1,650,000 tokens
   → 若 max_seq_len=4096: 约 400 并发请求

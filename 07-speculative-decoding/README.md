@@ -1,6 +1,6 @@
 # Ch07: 投机解码进阶
 
-> 前置知识：Ch01 KV Cache 深度剖析、[gpu-ai-systems-learning/07/04-speculative-decoding.md](../../gpu-ai-systems-learning/07-inference-optimization/04-speculative-decoding.md)
+> 前置知识：Ch01 KV Cache 深度剖析、[gpu-ai-systems-learning/07/04-speculative-decoding.md](https://github.com/NightLemon/gpu-ai-systems-learning/blob/master/07-inference-optimization/04-speculative-decoding.md)
 
 ## 🎯 学习目标
 
