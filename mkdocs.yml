@@ -1,0 +1,151 @@
+site_name: LLM Serving 深度学习指南
+site_url: https://nightlemon.github.io/llm-serving-deep-dive/
+repo_url: https://github.com/NightLemon/llm-serving-deep-dive
+repo_name: NightLemon/llm-serving-deep-dive
+docs_dir: .
+site_dir: .site
+
+theme:
+  name: material
+  language: zh
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: 切换暗色模式
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: 切换亮色模式
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.instant
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+  icon:
+    repo: fontawesome/brands/github
+
+markdown_extensions:
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - admonition
+  - pymdownx.details
+  - tables
+  - toc:
+      permalink: true
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+
+nav:
+  - 首页: README.md
+  - 学习规划: STUDY_GUIDE.md
+  - Ch01 KV Cache 深度剖析:
+    - 概述: 01-kv-cache-internals/README.md
+    - 1.1 显存布局: 01-kv-cache-internals/01-memory-layout.md
+    - 1.2 Prefill vs Decode: 01-kv-cache-internals/02-prefill-decode.md
+    - 1.3 显存计算: 01-kv-cache-internals/03-memory-calculation.md
+    - 练习: 01-kv-cache-internals/exercises.md
+  - Ch02 前缀缓存:
+    - 概述: 02-prefix-caching/README.md
+    - 2.1 原理: 02-prefix-caching/01-principles.md
+    - 2.2 vLLM APC: 02-prefix-caching/02-vllm-apc.md
+    - 2.3 RadixAttention: 02-prefix-caching/03-radix-attention.md
+    - 2.4 API Caching: 02-prefix-caching/04-api-caching.md
+    - 练习: 02-prefix-caching/exercises.md
+  - Ch03 KV Cache 压缩:
+    - 概述: 03-kv-cache-compression/README.md
+    - 3.1 量化: 03-kv-cache-compression/01-quantization.md
+    - 3.2 MLA: 03-kv-cache-compression/02-mla.md
+    - 3.3 选择性缓存: 03-kv-cache-compression/03-selective-caching.md
+    - 3.4 GQA/MQA: 03-kv-cache-compression/04-gqa-mqa.md
+    - 练习: 03-kv-cache-compression/exercises.md
+  - Ch04 PagedAttention:
+    - 概述: 04-paged-attention/README.md
+    - 4.1 PagedAttention: 04-paged-attention/01-paged-attention.md
+    - 4.2 vLLM 内存管理: 04-paged-attention/02-vllm-memory.md
+    - 4.3 Preemption: 04-paged-attention/03-preemption.md
+    - 4.4 碎片分析: 04-paged-attention/04-fragmentation.md
+    - 练习: 04-paged-attention/exercises.md
+  - Ch05 Prefill-Decode 分离:
+    - 概述: 05-disaggregated-serving/README.md
+    - 5.1 动机: 05-disaggregated-serving/01-motivation.md
+    - 5.2 架构: 05-disaggregated-serving/02-architecture.md
+    - 5.3 KV Transfer: 05-disaggregated-serving/03-kv-transfer.md
+    - 5.4 vLLM 实现: 05-disaggregated-serving/04-vllm-disagg.md
+    - 5.5 适用场景: 05-disaggregated-serving/05-when-to-use.md
+    - 练习: 05-disaggregated-serving/exercises.md
+  - Ch06 KV Cache 卸载:
+    - 概述: 06-kv-offloading/README.md
+    - 6.1 分层存储: 06-kv-offloading/01-tiered-storage.md
+    - 6.2 vLLM Offloading: 06-kv-offloading/02-vllm-offloading.md
+    - 6.3 Extended Caching: 06-kv-offloading/03-extended-caching.md
+    - 6.4 LMCache: 06-kv-offloading/04-lmcache.md
+    - 6.5 FlexKV: 06-kv-offloading/05-flexkv.md
+    - 练习: 06-kv-offloading/exercises.md
+  - Ch07 投机解码:
+    - 概述: 07-speculative-decoding/README.md
+    - 7.1 数学基础: 07-speculative-decoding/01-math-foundation.md
+    - 7.2 EAGLE: 07-speculative-decoding/02-eagle.md
+    - 7.3 Medusa: 07-speculative-decoding/03-medusa.md
+    - 7.4 MTP: 07-speculative-decoding/04-mtp.md
+    - 7.5 Draft 选择: 07-speculative-decoding/05-draft-selection.md
+    - 7.6 Tree Attention: 07-speculative-decoding/06-tree-attention.md
+    - 练习: 07-speculative-decoding/exercises.md
+  - Ch08 调度与批处理:
+    - 概述: 08-scheduling-batching/README.md
+    - 8.1 Continuous Batching: 08-scheduling-batching/01-continuous-batching.md
+    - 8.2 vLLM Scheduler: 08-scheduling-batching/02-vllm-scheduler.md
+    - 8.3 Chunked Prefill: 08-scheduling-batching/03-chunked-prefill.md
+    - 8.4 优先级与公平性: 08-scheduling-batching/04-priority-fairness.md
+    - 8.5 Dual Batch Overlap: 08-scheduling-batching/05-dbo.md
+    - 练习: 08-scheduling-batching/exercises.md
+  - Ch09 分布式推理:
+    - 概述: 09-distributed-inference/README.md
+    - 9.1 Tensor Parallel: 09-distributed-inference/01-tensor-parallel.md
+    - 9.2 Pipeline Parallel: 09-distributed-inference/02-pipeline-parallel.md
+    - 9.3 Expert Parallel: 09-distributed-inference/03-expert-parallel.md
+    - 9.4 Data Parallel: 09-distributed-inference/04-data-parallel.md
+    - 9.5 Context Parallel: 09-distributed-inference/05-context-parallel.md
+    - 9.6 混合并行: 09-distributed-inference/06-hybrid-parallelism.md
+    - 练习: 09-distributed-inference/exercises.md
+  - Ch10 生产环境:
+    - 概述: 10-production-patterns/README.md
+    - 10.1 Cache-Aware 路由: 10-production-patterns/01-routing.md
+    - 10.2 监控: 10-production-patterns/02-monitoring.md
+    - 10.3 Profiling: 10-production-patterns/03-profiling.md
+    - 10.4 成本优化: 10-production-patterns/04-cost-optimization.md
+    - 10.5 高可用: 10-production-patterns/05-high-availability.md
+    - 10.6 模型更新: 10-production-patterns/06-model-updates.md
+    - 练习: 10-production-patterns/exercises.md
+  - Ch11 前沿研究:
+    - 概述: 11-frontier-research/README.md
+    - 11.1 Hybrid KV Cache: 11-frontier-research/01-hybrid-kv-cache.md
+    - 11.2 Attention 创新: 11-frontier-research/02-attention-innovations.md
+    - 11.3 编译优化: 11-frontier-research/03-compilation.md
+    - 11.4 成本前沿: 11-frontier-research/04-cost-frontier.md
+    - 11.5 论文清单: 11-frontier-research/05-paper-list.md
+    - 11.6 趋势展望: 11-frontier-research/06-trends.md
+  - 资源:
+    - 术语表: resources/glossary.md
+    - 工具: resources/tools.md

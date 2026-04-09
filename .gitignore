@@ -21,6 +21,7 @@ desktop.ini
 dist/
 build/
 *.egg-info/
+.site/
 
 # Benchmark results (keep templates, ignore actual data)
 benchmarks/results/
