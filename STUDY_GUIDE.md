@@ -1,6 +1,6 @@
 # GPU & AI Systems + LLM Serving 综合学习规划
 
-> 本指南整合 [gpu-ai-systems-learning](https://github.com/NightLemon/gpu-ai-systems-learning)（基础篇，10 章）和 [llm-serving-deep-dive](https://github.com/NightLemon/llm-serving-deep-dive)（进阶篇，11 章）两份材料，给出一条从零到生产的完整学习路线。
+> 本指南整合 [gpu-ai-systems-learning](https://github.com/NightLemon/gpu-ai-systems-learning)（基础篇，10 章）和 [llm-serving-deep-dive](https://github.com/NightLemon/llm-serving-deep-dive)（进阶篇，13 章）两份材料，给出一条从零到生产的完整学习路线。
 
 ## 两份材料的关系
 
@@ -14,7 +14,7 @@ Ch03 CUDA 编程               ──→ 理解 kernel 优化
 Ch04 Transformer 深入        ──→ 理解模型结构
 Ch05 训练基础                             
 Ch06 分布式训练              ──→ 对照 Serving Ch09 分布式推理
-Ch07 推理优化（入门）         ──→ Serving Ch01-11（全面深入）
+Ch07 推理优化（入门）         ──→ Serving Ch01-13（全面深入）
 Ch08 基础设施                ──→ 对照 Serving Ch10 生产实践
 Ch09 实战项目                             
 ```
@@ -55,7 +55,7 @@ graph TD
     P2B["Phase 2B: 推理入门 (Week 6-7)<br/>gpu: Ch07 推理优化"]
     P2C["Phase 2C: 推理深入 (Week 8-13)<br/>serving: Ch01-06<br/>KV Cache 全栈"]
     P3["Phase 3: 高级推理 (Week 14-17)<br/>serving: Ch07 投机解码<br/>serving: Ch08 调度与批处理<br/>serving: Ch09 分布式推理"]
-    P4["Phase 4: 生产与前沿 (Week 18-20)<br/>gpu: Ch08 基础设施<br/>serving: Ch10 生产环境实践<br/>serving: Ch11 前沿研究<br/>gpu: Ch09 实战项目"]
+    P4["Phase 4: 生产与前沿 (Week 18-20)<br/>gpu: Ch08 基础设施<br/>serving: Ch10 生产环境实践<br/>serving: Ch11 前沿研究<br/>serving: Ch12-13 结构化输出 · 多模态<br/>gpu: Ch09 实战项目"]
 
     P0 --> P1
     P1 --> P2A
@@ -145,7 +145,7 @@ graph TD
 | 周 | 内容 | 目标 | 验证 |
 |----|------|------|------|
 | W18 | gpu Ch08 基础设施 + serving Ch10 生产实践 | 集群网络、监控、Cache-aware 路由、成本优化 | 搭建 Prometheus + Grafana 监控 vLLM |
-| W19 | serving Ch11 前沿研究 | Hybrid KV Cache、编译优化、成本趋势 | 读 1-2 篇论文并写总结 |
+| W19 | serving Ch11 前沿研究 + Ch12-13 结构化输出 · 多模态 | Hybrid KV Cache、编译优化、constrained decoding、VLM 推理 | 读 1-2 篇论文并写总结 |
 | W20 | gpu Ch09 实战项目 | GEMM 优化 + 推理服务部署 | 跑通 03-inference-serving 项目 |
 
 ---

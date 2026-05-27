@@ -147,6 +147,18 @@ nav:
     - 11.5 论文清单: 11-frontier-research/05-paper-list.md
     - 11.6 趋势展望: 11-frontier-research/06-trends.md
     - 练习: 11-frontier-research/exercises.md
+  - Ch12 结构化输出:
+    - 概述: 12-structured-output/README.md
+    - 12.1 Constrained Decoding: 12-structured-output/01-constrained-decoding.md
+    - 12.2 与 Serving 的交互: 12-structured-output/02-serving-interaction.md
+    - 12.3 生产环境模式: 12-structured-output/03-production-patterns.md
+    - 练习: 12-structured-output/exercises.md
+  - Ch13 多模态推理:
+    - 概述: 13-multimodal-serving/README.md
+    - 13.1 VLM 推理挑战: 13-multimodal-serving/01-vlm-serving-challenges.md
+    - 13.2 调度与批处理: 13-multimodal-serving/02-scheduling-and-batching.md
+    - 13.3 优化技术: 13-multimodal-serving/03-optimization.md
+    - 练习: 13-multimodal-serving/exercises.md
   - 资源:
     - 概述: resources/README.md
     - 术语表: resources/glossary.md
