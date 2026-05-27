@@ -1,6 +1,8 @@
 # GPU & AI Systems + LLM Serving 综合学习规划
 
 > 本指南整合 [gpu-ai-systems-learning](https://github.com/NightLemon/gpu-ai-systems-learning)（基础篇，10 章）和 [llm-serving-deep-dive](https://github.com/NightLemon/llm-serving-deep-dive)（进阶篇，13 章）两份材料，给出一条从零到生产的完整学习路线。
+>
+> **本文档是宏观路径规划**（按 level / 兴趣分流）。要把每章落到"在什么硬件上做哪些实操、用什么节奏"，看 [HANDS_ON.md](HANDS_ON.md)（含 5 周速通计划）。
 
 ## 两份材料的关系
 

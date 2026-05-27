@@ -84,6 +84,9 @@ graph TD
 
 ## 📅 建议学习计划
 
+> 想要带硬件标签、按天排好的实操路径？看 [HANDS_ON.md](HANDS_ON.md)（含 5 周速通计划）。
+> 想了解与 gpu-ai-systems-learning 的综合路线？看 [STUDY_GUIDE.md](STUDY_GUIDE.md)。
+
 ### Phase 1：KV Cache 全貌（Week 1-2）
 - Ch01 KV Cache Internals — 从显存布局到 Block Table
 - Ch02 Prefix Caching — 理解 cache hit 的本质
