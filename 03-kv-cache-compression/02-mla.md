@@ -1,6 +1,6 @@
 # MLA: Multi-head Latent Attention 深度解读
 
-> 从架构层面重新设计 attention，将 KV Cache 压缩到传统 MHA 的 ~1/9。
+> 从架构层面重新设计 attention，通过低秩投影将 KV Cache 大幅压缩（DeepSeek-V2 实测：vs MHA 约 57x，vs GQA-8 约 5x）。
 
 ## 1. 设计动机
 
