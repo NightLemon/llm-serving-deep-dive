@@ -22,6 +22,13 @@ dist/
 build/
 *.egg-info/
 .site/
+site/
+
+# mkdocs duplicate/staging tree (root files are canonical)
+docs/
+
+# Harness local state
+.harness/
 
 # Benchmark results (keep templates, ignore actual data)
 benchmarks/results/
