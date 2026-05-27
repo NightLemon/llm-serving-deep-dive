@@ -96,3 +96,86 @@
 - **计算验证**：建议用 Python 代码验证所有手动计算
 - **单位注意**：1 GB = $1024^3$ bytes
 - **参考章节**：KV Cache 计算公式参考 Ch01.3，Chunked Prefill 原理参考 Ch08.3
+
+---
+
+## 练习 4：Vision API 计费规律观察（🟢 纯 API）
+
+**目标**：通过观察大厂 API 计费，反推出图像 token 化的工程取舍。
+
+### 准备
+
+任选 Anthropic Claude 或 OpenAI GPT-4o（都支持 vision）。准备 4 张测试图：
+
+- A: 256×256 简单图（如 logo）
+- B: 1024×1024 中等图（如风景照）
+- C: 2048×2048 高分辨率图（如截图）
+- D: 4096×4096 超大图（如扫描文档）
+
+### 实验
+
+对每张图发同一个简短问题（如 "describe this in one sentence"），记录响应里的 `usage` 字段。
+
+```python
+# Anthropic 示例
+import anthropic, base64
+
+client = anthropic.Anthropic()
+for path in ["a.png", "b.png", "c.png", "d.png"]:
+    with open(path, "rb") as f:
+        img_b64 = base64.b64encode(f.read()).decode()
+    resp = client.messages.create(
+        model="claude-sonnet-4-5",
+        max_tokens=64,
+        messages=[{
+            "role": "user",
+            "content": [
+                {"type": "image", "source": {"type": "base64", "media_type": "image/png", "data": img_b64}},
+                {"type": "text", "text": "describe this in one sentence"}
+            ]
+        }]
+    )
+    print(path, resp.usage)
+```
+
+### 分析任务
+
+1. 列表对比四张图的 `input_tokens`，画出"分辨率 vs token 数"的散点图
+2. 单图 token 数有没有上限？两家 API 的策略一样吗？（去看官方文档验证）
+3. 如果你的业务大量传 4K 截图，按这套计费 1M 请求要多少美元？相比传文本（假设等价信息量约 500 tokens）贵多少倍？
+4. **反推**：这套计费规则下，VLM 服务商在内部一定做了什么优化才能保住毛利？（提示：think "动态分辨率 / token 剪枝 / cache"）
+
+### 验收
+
+能用一段话向产品经理解释："为什么 vision API 那么贵"，并能给出至少 2 个降本建议（业务侧的、不需要换模型的）。
+
+---
+
+## 练习 5：3070 上本地跑 VLM 可行性测试（🟢 本地 · 选做）
+
+**目标**：把"3070 跑得动什么 VLM"摸清边界，作为后续选型依据。
+
+### 候选模型（按显存预算从小到大）
+
+| 模型 | 量化 | 估算显存 | 是否可行 |
+|------|------|---------|---------|
+| Moondream-2B | FP16 | ~4 GB | ✅ |
+| Qwen2-VL-2B-Instruct | AWQ INT4 | ~3 GB | ✅ |
+| LLaVA-1.5-7B | AWQ INT4 | ~5-6 GB | ⚠️ 紧 |
+| Qwen2-VL-7B-Instruct | AWQ INT4 | ~6 GB | ⚠️ 紧 |
+| InternVL2-8B | AWQ INT4 | ~7 GB | ❌ 大概率 OOM |
+
+### 任务
+
+1. 用 `transformers` 或 `vllm`（注意 vLLM 对 multimodal 的支持版本要求）跑 Moondream-2B + Qwen2-VL-2B-AWQ
+2. 测同一张图 + 同一段问题在两个模型上的：
+   - 输出质量（主观打分 1-5）
+   - First token 延迟
+   - 总延迟
+   - 峰值显存（用 `nvidia-smi` 或 `torch.cuda.max_memory_allocated()`）
+3. 尝试加载 LLaVA-1.5-7B-AWQ：能否塞进 8GB？如果 OOM 在哪一步？
+4. 写一份"3070 VLM 部署可行性"短报告（≤ 1 页），结论 + 数据 + 推荐模型
+
+### 验收
+
+能回答："如果我要在 3070 上部署一个 VLM 做内部 demo，选哪个模型、为什么、会有什么质量妥协。"

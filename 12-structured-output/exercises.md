@@ -46,3 +46,86 @@
 1. 数出总共有多少个 token 是完全被 schema 决定的（forced token）
 2. 估算 jump-forward 优化能减少多少 decode steps
 3. 如果单次 decode step 耗时 10ms，jump-forward 能节省多少延迟？
+
+---
+
+## 练习 5：OpenAI Structured Output API vs Outlines 对照实验（🟢 纯本地 + API）
+
+**目标**：把 [02-serving-interaction.md](02-serving-interaction.md) 讲的"服务端 constrained decoding"放到真实环境对比。
+
+### 准备
+
+```bash
+pip install openai outlines
+export OPENAI_API_KEY="..."
+```
+
+任选一个 7B 以下的本地可加载模型，或者直接用 OpenAI `gpt-4o-mini` 作为对比基线。
+
+### 任务
+
+对**同一个非平凡 schema**（建议：嵌套 3 层、至少 1 个 enum、1 个 array），用以下三种方式跑 100 个测试样本：
+
+1. **无约束**：普通 chat completion + 提示词要求 JSON 输出
+2. **OpenAI Structured Output**：用 `response_format={"type": "json_schema", "json_schema": ...}`
+3. **Outlines + 本地小模型**：用 `outlines.generate.json(model, schema)` 跑本地推理
+
+### 测量
+
+| 维度 | 无约束 | OpenAI SO | Outlines |
+|------|--------|-----------|----------|
+| 100% 合法 JSON 的比例 | ? | ? | ? |
+| 100% 符合 schema 的比例 | ? | ? | ? |
+| 平均输出 token 数 | ? | ? | ? |
+| 平均 e2e 延迟 | ? | ? | ? |
+| 单次成本（美元） | ? | ? | ? |
+
+### 验收
+
+回答这 3 个问题：
+1. 三种方式里，**合法率**和**延迟**是否存在反比关系？反直觉吗？
+2. OpenAI Structured Output 内部用的是什么实现？（去查文档/blog——它和 Outlines 的 logits mask 是同一类技术吗？）
+3. 如果你在生产里要在"调 GPT-4o + Structured Output" 和 "自部署 Llama + Outlines" 间选，决策点是什么？
+
+---
+
+## 练习 6：vLLM Guided Decoding 实测（🟡 L4 单卡）
+
+**目标**：在真实推理引擎里观察 constrained decoding 对吞吐的影响，验证 [03-production-patterns.md](03-production-patterns.md) 里的取舍说法。
+
+### 环境
+
+- 1 张 L4 / L40S / A100，24GB+
+- vLLM ≥ 0.6.x
+- 模型：Qwen2.5-7B-Instruct
+
+### 实验
+
+启动 vLLM：
+
+```bash
+# Baseline: 无 guided decoding
+vllm serve Qwen/Qwen2.5-7B-Instruct \
+  --max-model-len 4096 \
+  --gpu-memory-utilization 0.9 \
+  --port 8000
+
+# 对照: 启用 outlines backend（注意 vLLM 也支持 lm-format-enforcer / xgrammar）
+vllm serve Qwen/Qwen2.5-7B-Instruct \
+  --max-model-len 4096 \
+  --guided-decoding-backend outlines \
+  --port 8001
+```
+
+写一个 benchmark 脚本，向两个端口同时发 200 个并发请求（同一个 schema），测：
+
+1. **吞吐量**：tokens/s
+2. **TTFT** p50/p99
+3. **首次合法 JSON 的成功率**（baseline 用 prompt 引导，对照走 `response_format`）
+4. **FSM 编译延迟**：第一次发某 schema 的请求 vs 后续命中 cache 的请求，TTFT 差多少？
+
+### 验收
+
+- 至少试 2 个不同 backend（outlines / xgrammar / lm-format-enforcer），找出哪个延迟最低
+- 画出"baseline 吞吐 vs guided 吞吐"的对比柱状图
+- 用一段话回答："如果我的服务 90% 请求需要 JSON 输出，应该全局开 guided decoding 吗？" 给出你的判断和理由
