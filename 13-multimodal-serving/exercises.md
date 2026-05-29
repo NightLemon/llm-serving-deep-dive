@@ -179,3 +179,30 @@ for path in ["a.png", "b.png", "c.png", "d.png"]:
 ### 验收
 
 能回答："如果我要在 3070 上部署一个 VLM 做内部 demo，选哪个模型、为什么、会有什么质量妥协。"
+
+---
+
+## 练习 6：VLM Admission Control 设计（📖 设计题）
+
+**目标**：把 [04-capacity-planning.md](04-capacity-planning.md) 中的容量规划方法应用到真实策略设计。
+
+### 场景
+
+你要上线一个图片问答服务：
+
+- 模型：Qwen2-VL-7B，A100-80GB × 2
+- 业务流量：80% 单图问答，15% 多图对比，5% 长截图/文档
+- SLA：单图 TTFT P95 < 2s，多图 TTFT P95 < 6s
+- 用户上传图片分辨率不可控，最大可能到 4096×4096
+- 希望高峰时优先保护单图问答体验
+
+### 任务
+
+1. 设计 online policy：`max_images`、`max_edge`、`max_tiles_per_image`、`max_new_tokens`。
+2. 写出 admission control 伪代码：什么情况下接纳、降级、转 async queue、拒绝？
+3. 设计过载降级顺序：先降 tiles、还是先限多图、还是先切小模型？说明理由。
+4. 列出 dashboard 指标：至少包含 visual tokens、tile 数、rejection reason、ViT latency、LLM prefill latency。
+
+### 验收
+
+能交付一份上线策略表，并回答："为什么 4096×4096 图不应该默认按最高分辨率进入在线池？"

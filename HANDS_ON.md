@@ -5,9 +5,9 @@
 **如何使用本文档**
 
 1. 先读 [STUDY_GUIDE.md](STUDY_GUIDE.md) 第 1-2 节，判断你的 Level
-2. 读本文档 [Section 0](#0-你的硬件画像与预算分配) 确认硬件路径
-3. 按 [Section 3](#3-13-章实操-checklist) 逐章学，每章用配套自查题验收
-4. 时间宽裕？跟 [Section 5](#5-速通计划) 走 5 周高强度路线
+2. 读本文档 [Section 0](#0) 确认硬件路径
+3. 按 [Section 3](#3-13-checklist) 逐章学，每章用配套自查题验收
+4. 时间宽裕？跟 [Section 5](#5-5) 走 5 周高强度路线
 
 ---
 
@@ -408,14 +408,15 @@ gpu-down            # 立刻 deallocate
 
 #### 必做
 
-- [ ] [🟢] 读完 3 篇子文档
+- [ ] [🟢] 读完 4 篇子文档
 - [ ] [🟢] 完成 exercises 练习 1（DFA 手画 + 合法 next token 列举）
 - [ ] [🟢] 完成 exercises 练习 5（OpenAI SO vs Outlines 对照实验，~2h，需 API）
 
 #### 推荐
 
 - [ ] [🟢] 完成 exercises 练习 2-4（speculative 兼容性 + 生产部署 + jump-forward）
-- [ ] [🟡 A10] 完成 exercises 练习 6（vLLM `--guided-decoding-backend` 实测，三个 backend 对比）
+- [ ] [🟡 A10] 完成 exercises 练习 6（vLLM structured outputs backend 实测，多个 backend 对比）
+- [ ] [📖] 阅读 Ch12.4，给自己的业务写一份 schema cache + fallback 上线 checklist
 
 #### 自查
 
@@ -429,13 +430,14 @@ gpu-down            # 立刻 deallocate
 
 #### 必做
 
-- [ ] [🟢] 读完 3 篇子文档
+- [ ] [🟢] 读完 4 篇子文档
 - [ ] [🟢] 完成 exercises 练习 1（VLM KV Cache 预算计算）
 - [ ] [🟢] 完成 exercises 练习 4（Vision API 计费规律观察，~1.5h，需 API）
 
 #### 推荐
 
 - [ ] [🟢] 完成 exercises 练习 2-3（prefill 延迟分析 + 优化收益估算）
+- [ ] [📖] 阅读 Ch13.4，设计一套 max images / max tiles / downgrade policy
 
 #### 选做
 

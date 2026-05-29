@@ -110,12 +110,14 @@ vllm serve Qwen/Qwen2.5-7B-Instruct \
   --gpu-memory-utilization 0.9 \
   --port 8000
 
-# 对照: 启用 outlines backend（注意 vLLM 也支持 lm-format-enforcer / xgrammar）
+# 对照: 启用 xgrammar backend（也可改为 outlines / guidance / lm-format-enforcer）
 vllm serve Qwen/Qwen2.5-7B-Instruct \
   --max-model-len 4096 \
-  --guided-decoding-backend outlines \
+  --structured-outputs-config.backend xgrammar \
   --port 8001
 ```
+
+> 旧版 vLLM 文档中常见 `--guided-decoding-backend`；新版服务端参数已迁移到 `--structured-outputs-config.backend`。如果你固定使用旧版本 vLLM，请以对应版本的 CLI 帮助为准。
 
 写一个 benchmark 脚本，向两个端口同时发 200 个并发请求（同一个 schema），测：
 
@@ -129,3 +131,30 @@ vllm serve Qwen/Qwen2.5-7B-Instruct \
 - 至少试 2 个不同 backend（outlines / xgrammar / lm-format-enforcer），找出哪个延迟最低
 - 画出"baseline 吞吐 vs guided 吞吐"的对比柱状图
 - 用一段话回答："如果我的服务 90% 请求需要 JSON 输出，应该全局开 guided decoding 吗？" 给出你的判断和理由
+
+---
+
+## 练习 7：Schema Cache 容量与灰度方案（📖 设计题）
+
+**目标**：把 [04-capacity-and-runbook.md](04-capacity-and-runbook.md) 里的上线 checklist 变成一份可执行设计。
+
+### 场景
+
+你负责一个信息抽取服务：
+
+- 日均 300 万请求，峰值 200 QPS
+- 共有 800 个注册 schema，其中 Top 50 覆盖 85% 流量
+- 平均 schema 状态数 180，P95 状态数 900
+- tokenizer 词表 128K
+- 目标：structured output 启用后，TTFT P99 增量 < 150 ms
+
+### 任务
+
+1. 估算 Top 50 schema 和全部 800 schema 的 mask bitset 内存上界。
+2. 设计 schema cache：缓存上限、驱逐策略、启动预热策略。
+3. 设计灰度流程：从 shadow mode 到 100% 流量需要看哪些指标？
+4. 写出 fallback 策略：schema 编译失败、backend 超时、cache 内存打满时分别怎么处理？
+
+### 验收
+
+交付一页 runbook，至少包含：容量估算表、指标阈值、fallback 决策树。

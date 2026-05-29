@@ -25,6 +25,10 @@
 
 **从实验到生产的最后一公里。** JSON mode vs structured output 的区别、streaming 场景下的结构化输出、性能优化策略、以及关键监控指标。
 
+### 4. 容量规划与上线 Runbook（04-capacity-and-runbook.md）
+
+**把 grammar cache、schema 复杂度和灰度流程纳入 serving 容量规划。** 讨论 schema cache 内存估算、冷编译延迟预算、backend 选择、失败模式排查和上线 checklist。
+
 ## 📄 参考资料
 
 | 项目/论文 | 核心贡献 |
@@ -40,4 +44,5 @@
 - [x] `01-constrained-decoding.md` — Constrained Decoding 机制
 - [x] `02-serving-interaction.md` — 与 Serving 系统的交互
 - [x] `03-production-patterns.md` — 生产环境模式
+- [x] `04-capacity-and-runbook.md` — 容量规划与上线 Runbook
 - [x] `exercises.md` — 动手练习

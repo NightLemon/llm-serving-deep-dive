@@ -17,6 +17,7 @@
 | 13.1 | `01-vlm-serving-challenges.md` | VLM 推理挑战：prefill 爆炸、KV Cache 压力、动态分辨率 |
 | 13.2 | `02-scheduling-and-batching.md` | 混合模态调度：分池策略、chunked prefill 适配、vLLM 多模态支持 |
 | 13.3 | `03-optimization.md` | 优化技术：视觉 token 压缩、ViT 缓存、异步流水线、量化 |
+| 13.4 | `04-capacity-planning.md` | 容量规划：admission control、SLO 分层、降级策略、监控指标 |
 
 ## 📄 参考论文
 
@@ -33,4 +34,5 @@
 - [x] `01-vlm-serving-challenges.md` — VLM 推理挑战
 - [x] `02-scheduling-and-batching.md` — 混合模态调度
 - [x] `03-optimization.md` — VLM 优化技术
+- [x] `04-capacity-planning.md` — VLM 容量规划与降级策略
 - [x] `exercises.md` — 动手练习

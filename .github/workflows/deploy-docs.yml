@@ -25,18 +25,19 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install mkdocs-material pymdown-extensions
+        run: pip install -r requirements-docs.txt
 
       - name: Prepare docs directory
         run: |
+          rm -rf docs
           mkdir -p docs
           # Copy all content directories and files
-          for item in README.md STUDY_GUIDE.md 0*/ 1*/ resources/ javascripts/ stylesheets/; do
+          for item in README.md STUDY_GUIDE.md HANDS_ON.md 0*/ 1*/ resources/ javascripts/ stylesheets/; do
             [ -e "$item" ] && cp -r "$item" docs/
           done
 
       - name: Build site
-        run: mkdocs build
+        run: mkdocs build --strict
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

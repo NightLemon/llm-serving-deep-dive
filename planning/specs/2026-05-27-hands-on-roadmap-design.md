@@ -124,7 +124,7 @@ Day 1 — Ch01.1-1.2 KV Cache 内存布局 + Prefill-Decode
 
 #### Ch12 补 2 题（在现有 2 题后追加）
 - 练习 3: OpenAI structured output API + Outlines 对照实验（纯 API + Python 本地）
-- 练习 4: vLLM `--guided-decoding-backend` 实测（🟡 L4 上做）
+- 练习 4: vLLM structured outputs backend 实测（🟡 L4 上做）
 
 #### Ch13 补 1-2 题（在现有 1 题后追加）
 - 练习 2: Anthropic / OpenAI vision API 计费规律观察（单图 / 多图 / 高低分辨率）

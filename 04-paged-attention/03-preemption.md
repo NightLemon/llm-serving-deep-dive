@@ -496,11 +496,11 @@ vllm:cpu_cache_usage_perc           # CPU swap space 使用率
 
 ### 7.2 KV Cache Offloading
 
-与 preemption 不同，offloading 是**主动的**——在 block 不被当前 decode step 使用时，提前将其换出到 CPU/SSD，避免触发 preemption。详见 [Ch06: KV Cache 卸载](../06-kv-offloading/)。
+与 preemption 不同，offloading 是**主动的**——在 block 不被当前 decode step 使用时，提前将其换出到 CPU/SSD，避免触发 preemption。详见 [Ch06: KV Cache 卸载](../06-kv-offloading/README.md)。
 
 ### 7.3 Disaggregated Prefill
 
-在 Prefill-Decode 分离架构（详见 [Ch05](../05-disaggregated-serving/)）中，preemption 的语义发生变化：
+在 Prefill-Decode 分离架构（详见 [Ch05](../05-disaggregated-serving/README.md)）中，preemption 的语义发生变化：
 - Prefill 节点不持有长期 KV Cache，不需要 preemption
 - Decode 节点的 preemption 可以通过"将 KV 发回 prefill 节点重建"来实现
 - 整体系统的 preemption 频率降低，因为资源分配更精细

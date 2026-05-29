@@ -338,16 +338,18 @@ Striped Attention (交错切分):
 ### 5.1 配置
 
 ```bash
-# vLLM CP 配置 (需要较新版本)
+# vLLM Decode Context Parallel 配置 (需要较新版本)
 vllm serve meta-llama/Llama-3.1-70B-Instruct \
     --tensor-parallel-size 4 \
-    --context-parallel-size 2
+    --decode-context-parallel-size 2
 # 总共需要 4 × 2 = 8 GPU
 
 # 注意: CP 的使用通常需要:
 # 1. 模型支持 (位置编码需要适配)
 # 2. 序列足够长 (短序列用 CP 反而增加开销)
 ```
+
+> 注意：较新的 vLLM 将 context parallel 显式拆成 decode context parallel (`--decode-context-parallel-size` / `-dcp`) 和 prefill context parallel (`--prefill-context-parallel-size` / `-pcp`)。如果你阅读的是旧版本文档或旧代码，可能会看到 `--context-parallel-size` 这类历史写法。
 
 ### 5.2 CP 在 vLLM 中的工作流
 

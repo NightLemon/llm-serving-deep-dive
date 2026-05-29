@@ -26,17 +26,19 @@
 
 | 章节 | 主题 | 难度 | 侧重 |
 |------|------|------|------|
-| [01](01-kv-cache-internals/) | KV Cache 深度剖析 | ⭐⭐ | 原理 + 源码 |
-| [02](02-prefix-caching/) | 前缀缓存与 Prompt Caching | ⭐⭐ | 原理 + 工程 |
-| [03](03-kv-cache-compression/) | KV Cache 压缩 | ⭐⭐⭐ | 论文 + 原理 |
-| [04](04-paged-attention/) | PagedAttention 与内存管理 | ⭐⭐⭐ | 源码 |
-| [05](05-disaggregated-serving/) | Prefill-Decode 分离架构 | ⭐⭐⭐ | 论文 + 源码 |
-| [06](06-kv-offloading/) | KV Cache 卸载 | ⭐⭐⭐ | 论文 + 工程 |
-| [07](07-speculative-decoding/) | 投机解码进阶 | ⭐⭐⭐ | 论文 + 源码 |
-| [08](08-scheduling-batching/) | 调度与批处理 | ⭐⭐⭐ | 源码 + 工程 |
-| [09](09-distributed-inference/) | 分布式推理 | ⭐⭐⭐⭐ | 论文 + 源码 |
-| [10](10-production-patterns/) | 生产环境实践 | ⭐⭐⭐ | 工程 |
-| [11](11-frontier-research/) | 前沿研究 | ⭐⭐⭐⭐ | 论文 |
+| [01](01-kv-cache-internals/README.md) | KV Cache 深度剖析 | ⭐⭐ | 原理 + 源码 |
+| [02](02-prefix-caching/README.md) | 前缀缓存与 Prompt Caching | ⭐⭐ | 原理 + 工程 |
+| [03](03-kv-cache-compression/README.md) | KV Cache 压缩 | ⭐⭐⭐ | 论文 + 原理 |
+| [04](04-paged-attention/README.md) | PagedAttention 与内存管理 | ⭐⭐⭐ | 源码 |
+| [05](05-disaggregated-serving/README.md) | Prefill-Decode 分离架构 | ⭐⭐⭐ | 论文 + 源码 |
+| [06](06-kv-offloading/README.md) | KV Cache 卸载 | ⭐⭐⭐ | 论文 + 工程 |
+| [07](07-speculative-decoding/README.md) | 投机解码进阶 | ⭐⭐⭐ | 论文 + 源码 |
+| [08](08-scheduling-batching/README.md) | 调度与批处理 | ⭐⭐⭐ | 源码 + 工程 |
+| [09](09-distributed-inference/README.md) | 分布式推理 | ⭐⭐⭐⭐ | 论文 + 源码 |
+| [10](10-production-patterns/README.md) | 生产环境实践 | ⭐⭐⭐ | 工程 |
+| [11](11-frontier-research/README.md) | 前沿研究 | ⭐⭐⭐⭐ | 论文 |
+| [12](12-structured-output/README.md) | 结构化输出 | ⭐⭐⭐ | 原理 + 工程 |
+| [13](13-multimodal-serving/README.md) | 多模态推理 | ⭐⭐⭐ | 架构 + 工程 |
 
 ## 🗺️ 学习路线图
 
@@ -64,6 +66,13 @@ graph TD
     G --> K
     C --> K
 
+    H --> L[12 结构化输出]
+    J --> L
+    H --> M[13 多模态推理]
+    E --> M
+    L --> K
+    M --> K
+
     style A fill:#1565c0,color:#fff
     style B fill:#1565c0,color:#fff
     style C fill:#1565c0,color:#fff
@@ -75,12 +84,14 @@ graph TD
     style I fill:#b71c1c,color:#fff
     style J fill:#b71c1c,color:#fff
     style K fill:#b71c1c,color:#fff
+    style L fill:#b71c1c,color:#fff
+    style M fill:#b71c1c,color:#fff
 ```
 
 **颜色说明：**
 - 🔵 蓝色：基础层（Ch01-04），可并行学习
 - 🟠 橙色：进阶层（Ch05-08），依赖基础层
-- 🔴 红色：应用/前沿层（Ch09-11），依赖进阶层
+- 🔴 红色：应用/前沿层（Ch09-13），依赖进阶层
 
 ## 📅 建议学习计划
 
@@ -105,6 +116,12 @@ graph TD
 - Ch09 Distributed Inference — TP/PP/EP 在推理中的应用
 - Ch10 Production Patterns — 上线前的最后一课
 - Ch11 Frontier Research — 追踪最新进展
+- Ch12 Structured Output — constrained decoding 与 serving pipeline 的交互
+- Ch13 Multimodal Serving — VLM 的 token 预算、调度与优化
+
+### Phase 5：专项上线 Runbook（Week 9，可选）
+- Ch12.4 Structured Output Runbook — schema cache、灰度、监控和 fallback
+- Ch13.4 VLM Capacity Planning — admission control、SLO 分层和降级策略
 
 ## 🔧 每章结构
 
