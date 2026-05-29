@@ -21,6 +21,7 @@
 | [`scripts/speculative_decoding_simulator.py`](../scripts/speculative_decoding_simulator.py) | Ch07 投机解码 rejection sampling 模拟，验证 $E=(1-\alpha^{\gamma+1})/(1-\alpha)$ |
 | [`scripts/batching_throughput_estimator.py`](../scripts/batching_throughput_estimator.py) | Ch08 用输出长度分布估算 static batching token 浪费和 continuous batching 理想收益 |
 | [`scripts/tp_comm_estimator.py`](../scripts/tp_comm_estimator.py) | Ch09 decode 阶段 TP 通信、KV 读取和权重读取的粗略拆解 |
+| [`scripts/freshness_check.py`](../scripts/freshness_check.py) | 可选联网检查 PyPI 当前版本，并与版本基线对照；不放进默认 CI，避免网络波动影响部署 |
 | [`scripts/smoke_tests.py`](../scripts/smoke_tests.py) | 一键跑所有脚本的代表性样例，CI 也会执行 |
 
 示例：

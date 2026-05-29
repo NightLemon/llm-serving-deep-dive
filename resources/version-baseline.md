@@ -28,6 +28,14 @@ gh release view -R sgl-project/sglang --json tagName,publishedAt,url
 gh release list -R LMCache/LMCache --limit 10
 ```
 
+如果你想先用 PyPI 包版本做一次快速探针，也可以运行：
+
+```bash
+python scripts/freshness_check.py --package vllm --package sglang --package lmcache
+```
+
+这个脚本只检查 PyPI 当前包版本与本页基线是否一致；遇到不一致时，再去 GitHub release 和官方 docs 确认是否需要更新章节命令。
+
 如果你本地安装的版本落后最新 release 很多，先不要直接照着章节命令跑，尤其是这些高频变化点：
 
 - vLLM `vllm serve` CLI 参数

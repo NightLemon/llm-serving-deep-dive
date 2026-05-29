@@ -75,6 +75,7 @@ def main() -> int:
         "2,4",
         expect="TP decode-step estimate",
     )
+    run_script("freshness_check.py", "--help", expect="PyPI")
     return 0
 
 

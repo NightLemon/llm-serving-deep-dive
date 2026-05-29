@@ -9,12 +9,19 @@
 | [`speculative_decoding_simulator.py`](speculative_decoding_simulator.py) | Ch07 | 用 rejection sampling 模拟投机解码接受 token 数，并对比理论公式 |
 | [`batching_throughput_estimator.py`](batching_throughput_estimator.py) | Ch08 | 用输出长度分布估算 static batching 浪费和 continuous batching 理想收益 |
 | [`tp_comm_estimator.py`](tp_comm_estimator.py) | Ch09 | 粗略拆解 decode 阶段权重读取、KV 读取和 TP AllReduce 通信耗时 |
+| [`freshness_check.py`](freshness_check.py) | Freshness Gate | 可选联网检查 PyPI 当前版本，并与 `resources/version-baseline.md` 对照 |
 | [`smoke_tests.py`](smoke_tests.py) | CI | 快速运行所有脚本的代表性样例，防止文档示例悄悄失效 |
 
 常用入口：
 
 ```bash
 python scripts/smoke_tests.py
+```
+
+学习或跑实验前，可选地检查框架包版本是否已经偏离仓库基线：
+
+```bash
+python scripts/freshness_check.py --package vllm --package sglang --package lmcache
 ```
 
 这些脚本不是性能 benchmark，不能替代真实 vLLM/SGLang 压测。它们的定位是帮你先把数量级和公式关系算对，再上 GPU 做实测。
