@@ -106,6 +106,23 @@ if __name__ == "__main__":
 2. 为什么 decode 阶段 TP=8 的 PCIe 系统效率只有 50-65%？写出具体的计算过程。
 3. 如果用 FP8 量化（dtype_bytes=1），TP 的最优选择会如何变化？
 
+### 可运行验算
+
+先用 [`scripts/tp_comm_estimator.py`](../scripts/tp_comm_estimator.py) 做粗略分解，再用真实 profiling 验证：
+
+```bash
+python scripts/tp_comm_estimator.py \
+  --model Llama-3-70B --hardware H100-NVLink \
+  --tp-sizes 1,2,4,8 --batch-size 32 --seq-len 4096
+```
+
+参考验收：
+
+- 表格应拆出 `weight_ms`、`kv_ms`、`tp_comm_ms`、`total_ms` 和 `comm_%`。
+- 在这个粗略 H100/NVLink 模型中，TP 越大权重与 KV 读取越小，但通信占比会升高。
+- 把 `--hardware` 改成 `PCIe-Gen4` 后，`tp_comm_ms` 和 `comm_%` 会明显上升，这就是小 batch decode 不适合高 TP 的核心原因之一。
+- 这是估算器，不替代 Nsight/NCCL profiling；真实结果还会受 kernel fusion、custom all-reduce、batch shape 和拓扑影响。
+
 ---
 
 ## 练习 2: Pipeline Parallel Bubble 模拟

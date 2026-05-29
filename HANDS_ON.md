@@ -25,7 +25,7 @@
 ### 0.2 3070 (8GB) 能做什么 / 不能做什么
 
 **能跑**
-- ✅ 所有纯 Python 模拟器、计算器（Ch01/03/04/05/06/07/09 的练习 1）
+- ✅ 所有纯 Python 模拟器、计算器（Ch01/03/04/05/06/07/08/09 的练习 1）
 - ✅ 所有 API 实验（Ch02 prompt caching、Ch12 structured output、Ch13 vision）
 - ✅ vLLM + 小模型：Qwen2.5-1.5B、SmolLM2-1.7B、Moondream-2B、Qwen2-VL-2B
 - ✅ vLLM + AWQ INT4 量化的 7B（紧，可能要调 `max_model_len`）
@@ -268,6 +268,7 @@ gpu-down            # 立刻 deallocate
 
 - [ ] [🟢] 读完 5 篇子文档（重点：when-to-use）
 - [ ] [🟢] 完成 exercises 练习 1（KV Cache 传输开销计算器）
+  - 用 `scripts/kv_transfer_calculator.py --kv-shard-factor ...` 区分 full KV 与单 shard 传输
 - [ ] [🟢] 完成 exercises 练习 2-3（分离 break-even point 计算）
 
 #### 推荐
@@ -309,6 +310,7 @@ gpu-down            # 立刻 deallocate
 
 - [ ] [🟢] 读完 6 篇子文档
 - [ ] [🟢] 完成 exercises 练习 1（Rejection Sampling 模拟器，~2h）—— 验证 $E[\text{accepted}] = \frac{1-\alpha^{\gamma+1}}{1-\alpha}$
+  - 用 `scripts/speculative_decoding_simulator.py` 对照理论值和模拟值
 - [ ] [🟢] 完成 exercises 练习 2（EAGLE / Medusa / MTP 架构对比表）
 
 #### 推荐
@@ -331,6 +333,7 @@ gpu-down            # 立刻 deallocate
 - [ ] [🟢] 读完 5 篇子文档
 - [ ] [📖] 走读 vLLM `vllm/v1/core/sched/scheduler.py` 的 `schedule()` 方法
 - [ ] [🟢] 完成 exercises 练习 1（chunked prefill 数学分析）
+  - 用 `scripts/batching_throughput_estimator.py` 先估算 `L_max / L_mean`
 
 #### 推荐
 
@@ -351,6 +354,7 @@ gpu-down            # 立刻 deallocate
 
 - [ ] [🟢] 读完 6 篇子文档
 - [ ] [🟢] 完成 exercises 练习 1（TP 通信开销分析与建模）
+  - 用 `scripts/tp_comm_estimator.py` 对比 H100/NVLink 与 PCIe-Gen4 的通信占比
 - [ ] [🟢] 完成 exercises 练习 2（PP bubble 计算）
 
 #### 推荐

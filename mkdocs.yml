@@ -167,3 +167,4 @@ nav:
     - 版本基线: resources/version-baseline.md
     - 术语表: resources/glossary.md
     - 工具: resources/tools.md
+    - Helper Scripts: scripts/README.md

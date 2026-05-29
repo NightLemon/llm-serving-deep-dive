@@ -139,6 +139,25 @@ IB-NDR-400G              0.4      0.9      3.5     13.9     27.8    111.3
 ...
 ```
 
+> 上面的数量级按 `kv_shard_factor=8` 理解：即 TP/KV 分片后单个 worker 需要传输的 KV shard。若计算完整逻辑 KV Cache，把 `kv_shard_factor` 设为 1，结果会放大 8 倍。
+
+### 可运行验算
+
+仓库提供了一个零依赖版本：[`scripts/kv_transfer_calculator.py`](../scripts/kv_transfer_calculator.py)。
+
+```bash
+python scripts/kv_transfer_calculator.py \
+  --model Llama-3-70B --network IB-NDR-400G \
+  --seq-lens 512,4096,16384 --kv-shard-factor 8 --table
+```
+
+参考验收：
+
+- `Llama-3-70B` 在 `seq_len=512`、`kv_shard_factor=8` 时，单 shard KV 大约 `20.0 MiB`。
+- 同模型在 `seq_len=4096` 时，单 shard KV 大约 `160.0 MiB`。
+- `IB-NDR-400G` 有效带宽按 `46 GB/s` 估算时，`seq_len=4096` 单 shard 传输约 `3.65 ms`。
+- DeepSeek-V3 的 MLA cache 在同等 shard 口径下明显小于 Llama-3-70B，这是 Ch03 MLA 公式在分离架构里的直接体现。
+
 ### 思考题
 
 1. DeepSeek-V3 使用 MLA（Multi-head Latent Attention），它的 KV Cache 大小与 Llama-3-70B 相比如何？为什么？

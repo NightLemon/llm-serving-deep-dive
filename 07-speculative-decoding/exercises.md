@@ -162,6 +162,22 @@ similarity=0.90, α≈0.95:
   γ=7: 理论=6.77, 实际=6.74 (误差: 0.4%)
 ```
 
+### 可运行验算
+
+可以先完成自己的实现，再用仓库里的标准库脚本做数量级对照：[`scripts/speculative_decoding_simulator.py`](../scripts/speculative_decoding_simulator.py)。
+
+```bash
+python scripts/speculative_decoding_simulator.py \
+  --gammas 1,3 --similarities 0.8,0.9 --trials 5000 --seed 7
+```
+
+参考验收：
+
+- 输出表应包含 `alpha`、`theory`、`actual`、`error_%` 四列。
+- `similarity=0.80` 时，平均 `alpha` 通常约为 `0.90`，`gamma=3` 的理论接受 token 数约 `3.44`。
+- `similarity=0.90` 时，平均 `alpha` 通常约为 `0.95`，`gamma=3` 的理论接受 token 数约 `3.71`。
+- 随机模拟有噪声；增大 `--trials` 后，`actual` 应向 `theory` 收敛。
+
 ### 思考题
 
 1. 当 `similarity=1.0` 时，$\alpha$ 是否等于 1.0？为什么？

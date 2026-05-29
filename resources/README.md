@@ -8,3 +8,4 @@
 - [工具链](tools.md) — 推理框架、性能分析、监控、Attention Kernel 等工具索引
 - [版本基线与 Freshness Gate](version-baseline.md) — 学习前复核框架版本、API 能力和实验环境
 - [KV Cache 计算器](../scripts/kv_cache_calculator.py) — 用稳定公式复核 Ch01/Ch13 容量规划练习
+- [Helper Scripts](../scripts/README.md) — 纯标准库脚本索引，覆盖 KV transfer、投机解码、batching、TP 通信等练习验算

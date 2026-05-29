@@ -214,6 +214,20 @@ asyncio.run(main())
 2. 当所有请求的输出长度完全相同（fixed 分布）时，continuous batching 相比 static batching 还有优势吗？
 3. 计算 `L_max / L_mean`，与实际观测到的吞吐量比例是否一致？
 
+### 可运行验算
+
+纯数学部分可以先用 [`scripts/batching_throughput_estimator.py`](../scripts/batching_throughput_estimator.py) 建立直觉，再上真实 vLLM benchmark：
+
+```bash
+python scripts/batching_throughput_estimator.py --num-prompts 200 --seed 13
+```
+
+参考验收：
+
+- `fixed` 分布的 `Lmax/Lmean` 应接近 `1.00`，static batching 基本没有 token padding 浪费。
+- `exponential` 分布通常有最高 `Lmax/Lmean`，代表 continuous batching 的理想收益最大。
+- 这个脚本只估算输出长度造成的 token work 差异，不包含 kernel launch、调度开销、prefix cache、chunked prefill 等真实系统因素。
+
 ---
 
 ## 练习 2：Chunked Prefill 参数调优

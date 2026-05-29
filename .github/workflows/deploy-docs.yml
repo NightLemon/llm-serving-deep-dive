@@ -36,6 +36,9 @@ jobs:
             [ -e "$item" ] && cp -r "$item" docs/
           done
 
+      - name: Run helper script smoke tests
+        run: python scripts/smoke_tests.py
+
       - name: Build site
         run: mkdocs build --strict
 
