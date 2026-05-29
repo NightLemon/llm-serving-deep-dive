@@ -98,6 +98,7 @@ graph TD
 > 想要带硬件标签、按天排好的实操路径？看 [HANDS_ON.md](HANDS_ON.md)（含 5 周速通计划）。
 > 想了解与 gpu-ai-systems-learning 的综合路线？看 [STUDY_GUIDE.md](STUDY_GUIDE.md)。
 > 开始跑实验前，先过一遍 [版本基线与 Freshness Gate](resources/version-baseline.md)，避免照着过期 CLI 参数或 API 模型名学习。
+> 容量规划先手算再验算：Ch01/Ch13 配套 [`scripts/kv_cache_calculator.py`](scripts/kv_cache_calculator.py)。
 
 ### Phase 1：KV Cache 全貌（Week 1-2）
 - Ch01 KV Cache Internals — 从显存布局到 Block Table

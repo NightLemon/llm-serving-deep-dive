@@ -12,6 +12,18 @@
 
 > 版本变化很快。跑实验前先看 [版本基线与 Freshness Gate](version-baseline.md)，并用 `vllm serve --help` / 官方 latest docs 复核 CLI 参数。
 
+## 本仓库脚本
+
+| 工具 | 用途 |
+|------|------|
+| [`scripts/kv_cache_calculator.py`](../scripts/kv_cache_calculator.py) | 零依赖 KV Cache 容量计算器，用于 Ch01/Ch13 的手算验收、TP 分片估算和 VLM 流量 mix 粗算 |
+
+示例：
+
+```bash
+python scripts/kv_cache_calculator.py --layers 80 --kv-heads 8 --head-dim 128 --tp 4 --seq-len 16384
+```
+
 ## 性能分析工具
 
 | 工具 | 用途 |

@@ -32,7 +32,7 @@ jobs:
           rm -rf docs
           mkdir -p docs
           # Copy all content directories and files
-          for item in README.md STUDY_GUIDE.md HANDS_ON.md 0*/ 1*/ resources/ javascripts/ stylesheets/; do
+          for item in README.md STUDY_GUIDE.md HANDS_ON.md 0*/ 1*/ resources/ scripts/ javascripts/ stylesheets/; do
             [ -e "$item" ] && cp -r "$item" docs/
           done
 

@@ -75,6 +75,27 @@ print(f"(d) Max concurrency (typical): {int(max_concurrent_typical)}")
 # 重复上述计算，将 dtype_bytes 改为 1
 ```
 
+### 可运行验算
+
+仓库里提供了一个零依赖计算器，适合先手算，再用脚本校验：[`scripts/kv_cache_calculator.py`](../scripts/kv_cache_calculator.py)。
+
+```bash
+python scripts/kv_cache_calculator.py \
+  --layers 80 --kv-heads 8 --head-dim 128 --dtype-bytes 2 --tp 4 \
+  --seq-len 16384 \
+  --gpu-memory-gb 80 --gpu-memory-utilization 0.9 \
+  --model-weights-gb-per-gpu 36 --overhead-gb-per-gpu 2
+```
+
+参考验收：
+
+- BF16、TP=4 时，每 GPU 的 KV per token 应为 `80.000 KiB`。
+- `max_model_len=16384` 时，单请求每 GPU KV 应为 `1.250 GiB`，34 GiB KV pool 下最坏并发为 `27`。
+- 典型 `10000` tokens 时，单请求每 GPU KV 为 `781.250 MiB`，同样 KV pool 下典型并发为 `44`。
+- 把 `--dtype-bytes` 改成 `1` 模拟 FP8 KV 后，KV per token 变为 `40.000 KiB`，最坏并发变为 `54`。
+
+如果某个运行时没有把 KV heads 按 TP 均匀切分，改用 `--local-kv-heads` 或 `--kv-shard-factor` 显式写出本地 KV 形状。
+
 ---
 
 ## 练习 2：Prefill vs Decode 性能分析

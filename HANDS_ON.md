@@ -180,6 +180,7 @@ gpu-down            # 立刻 deallocate
 
 - [ ] [🟢] 读完 `01-memory-layout.md` → `03-memory-calculation.md`（~3h）
 - [ ] [🟢] 完成 `exercises.md` 练习 1（Qwen-72B KV Cache 精确计算，~1h）
+  - 先手算，再用 `python scripts/kv_cache_calculator.py ...` 对照参考输出
 - [ ] [🟢] 完成 `exercises.md` 练习 2（写 Python 函数封装计算）
 - [ ] [🟢] 完成 `exercises.md` 练习 3（prefill vs decode AI 对比）
 
@@ -433,6 +434,7 @@ gpu-down            # 立刻 deallocate
 
 - [ ] [🟢] 读完 4 篇子文档
 - [ ] [🟢] 完成 exercises 练习 1（VLM KV Cache 预算计算）
+  - 用 `scripts/kv_cache_calculator.py --mix ...` 校验低/中/高分辨率流量分布
 - [ ] [🟢] 完成 exercises 练习 4（Vision API 计费规律观察，~1.5h，需 API）
 
 #### 推荐

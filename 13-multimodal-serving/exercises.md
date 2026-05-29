@@ -31,6 +31,26 @@
 
 **(d)** 估算最大并发请求数。对比纯文本场景（仅 50 tokens prompt + 200 tokens 生成），VLM 场景的并发容量下降了多少？
 
+### 可运行验算
+
+先手算，再用 [`scripts/kv_cache_calculator.py`](../scripts/kv_cache_calculator.py) 校验三档分辨率和加权平均：
+
+```bash
+python scripts/kv_cache_calculator.py \
+  --layers 28 --kv-heads 4 --head-dim 128 --dtype-bytes 2 \
+  --gpu-memory-gb 80 --gpu-memory-utilization 0.9 \
+  --model-weights-gb-per-gpu 14 \
+  --mix low:0.4:1274 --mix medium:0.4:4346 --mix high:0.2:6394
+```
+
+参考验收：
+
+- KV per token 应为 `56.000 KiB`。
+- 低/中/高分辨率请求的 KV 分别约为 `69.672 MiB`、`237.672 MiB`、`349.672 MiB`。
+- 按题目流量分布，加权平均请求约 `3526.8` tokens，KV 约 `192.872 MiB`。
+- 若只扣除模型权重，58 GiB KV pool 下平均 VLM 并发约 `307`；纯文本 `250` tokens 场景约 `4344`，容量约下降 `14.1x`。
+- 生产规划时还要继续扣除 runtime overhead、峰值激活、碎片和调度保留，所以线上 admission control 不应直接把 `307` 当硬上限。
+
 ---
 
 ## 练习 2：Prefill 延迟影响分析
