@@ -10,6 +10,8 @@
 | TGI | https://github.com/huggingface/text-generation-inference | HuggingFace 推理服务 |
 | llama.cpp | https://github.com/ggerganov/llama.cpp | CPU/边缘设备推理 |
 
+> 版本变化很快。跑实验前先看 [版本基线与 Freshness Gate](version-baseline.md)，并用 `vllm serve --help` / 官方 latest docs 复核 CLI 参数。
+
 ## 性能分析工具
 
 | 工具 | 用途 |

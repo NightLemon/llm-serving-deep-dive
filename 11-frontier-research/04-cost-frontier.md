@@ -155,7 +155,7 @@ OpenAI 于 2024 年推出的 Batch API 提供了更结构化的异步推理方�
 # Step 1: 准备 JSONL 文件
 # batch_input.jsonl:
 # {"custom_id": "req_1", "method": "POST", "url": "/v1/chat/completions", 
-#  "body": {"model": "gpt-4o", "messages": [{"role": "user", "content": "Hello"}]}}
+#  "body": {"model": "${OPENAI_MODEL}", "messages": [{"role": "user", "content": "Hello"}]}}
 # {"custom_id": "req_2", ...}
 # ...
 
@@ -230,9 +230,10 @@ Google Batch Prediction:
 ```python
 # Anthropic 的 Message Batches API
 
-import anthropic
+import anthropic, os
 
 client = anthropic.Anthropic()
+model = os.environ["ANTHROPIC_MODEL"]  # 先查官方 docs，再设置当前 batch 支持的模型
 
 # 创建 batch
 batch = client.messages.batches.create(
@@ -240,7 +241,7 @@ batch = client.messages.batches.create(
         {
             "custom_id": "req_1",
             "params": {
-                "model": "claude-sonnet-4-20250514",
+                "model": model,
                 "max_tokens": 1024,
                 "messages": [{"role": "user", "content": "分析这段代码..."}]
             }

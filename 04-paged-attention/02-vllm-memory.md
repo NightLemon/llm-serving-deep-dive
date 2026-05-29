@@ -2,7 +2,7 @@
 
 > 本节走读 vLLM v1 架构中 KV Cache 内存管理的核心源码，涵盖 BlockPool、KVCacheManager、KVCacheCoordinator 和 BlockTable 四个关键组件。
 > 
-> **源码版本基准**：vLLM ≥ 0.8.x（v1 架构）。v1 是 vLLM 从 0.7 开始引入的新调度 / worker 架构，显著简化了代码路径。
+> **源码版本基准**：以 [版本基线与 Freshness Gate](../resources/version-baseline.md) 中记录的 vLLM latest release 为准。vLLM v1 架构从 0.7/0.8 时期开始稳定进入主线，但文件路径和类名仍会随版本重构；源码走读前先用 `rg "class .*Block|KVCacheManager|KVCacheCoordinator" vllm/` 定位最新实现。
 
 ## 1. 架构总览
 

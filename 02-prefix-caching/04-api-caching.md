@@ -2,6 +2,9 @@
 
 > 本节详细对比 OpenAI、Anthropic、Google Gemini 三大 API 提供商的 Prompt Caching 方案，深入分析其触发条件、定价策略、设计约束，并提供最大化 cache hit 的工程实践指南。
 
+!!! warning "先做 freshness check"
+    API provider 的模型名、价格、cache TTL、支持字段变化很快。本节代码和价格表用于解释机制，实验和预算前必须先看 [版本基线与 Freshness Gate](../resources/version-baseline.md)，再查对应 provider 的官方文档和 pricing 页面。
+
 ## 1. 三大提供商方案总览
 
 ### 1.1 对比矩阵
@@ -34,12 +37,14 @@
 OpenAI 的 Prompt Caching 完全自动，不需要任何 API 参数或标记：
 
 ```python
+import os
 from openai import OpenAI
 client = OpenAI()
+model = os.environ["OPENAI_MODEL"]  # 先查官方 docs，再设置当前支持 prompt caching 的模型
 
 # 第一次请求：建立 cache
 response1 = client.chat.completions.create(
-    model="gpt-4o",
+    model=model,
     messages=[
         {"role": "system", "content": very_long_system_prompt},  # 2000 tokens
         {"role": "user", "content": "What is machine learning?"}
@@ -48,7 +53,7 @@ response1 = client.chat.completions.create(
 
 # 第二次请求：相同的 system prompt → cache hit
 response2 = client.chat.completions.create(
-    model="gpt-4o",
+    model=model,
     messages=[
         {"role": "system", "content": very_long_system_prompt},  # cache hit!
         {"role": "user", "content": "Explain neural networks."}
@@ -84,7 +89,7 @@ response2 = client.chat.completions.create(
 
 ### 2.4 定价
 
-OpenAI 的 cache 策略是最简单的：
+OpenAI 的 cache 策略是最简单的。下表只用于解释折扣形态，不作为最新价格来源：
 
 | 模型 | 正常 input（$/M tokens） | Cached input（$/M tokens） | 折扣 |
 |------|-------------------------|--------------------------|------|
@@ -102,11 +107,12 @@ OpenAI 的 cache 策略是最简单的：
 Anthropic 允许用户在 message 中插入 `cache_control` 标记来指定缓存边界：
 
 ```python
-import anthropic
+import anthropic, os
 client = anthropic.Anthropic()
+model = os.environ["ANTHROPIC_MODEL"]  # 先查官方 docs，再设置当前支持 prompt caching 的模型
 
 response = client.messages.create(
-    model="claude-sonnet-4-20250514",
+    model=model,
     max_tokens=1024,
     system=[
         {
@@ -129,7 +135,7 @@ response = client.messages.create(
 
 ```python
 response = client.messages.create(
-    model="claude-sonnet-4-20250514",
+    model=model,
     max_tokens=1024,
     system=[
         {
@@ -589,13 +595,13 @@ RAG（Retrieval-Augmented Generation）系统中，每次检索的文档片段�
 ```python
 # OpenAI（自动，无需修改）
 response = openai_client.chat.completions.create(
-    model="gpt-4o",
+    model=os.environ["OPENAI_MODEL"],
     messages=[...]
 )
 
 # Anthropic（需要添加 cache_control）
 response = anthropic_client.messages.create(
-    model="claude-sonnet-4-20250514",
+    model=os.environ["ANTHROPIC_MODEL"],
     system=[{
         "type": "text",
         "text": system_prompt,

@@ -2,6 +2,9 @@
 
 > OpenAI 于 2024 年底推出 Extended Prompt Caching，将 KV Cache 的保留时间从分钟级延长到 24 小时。本节分析其工作原理、技术推测和实际使用方式。
 
+!!! warning "Freshness"
+    本节涉及 OpenAI API 字段、模型支持范围、ZDR 资格和计费规则，变化很快。实验前必须先看 [版本基线与 Freshness Gate](../resources/version-baseline.md) 和 OpenAI 官方文档；本节的技术实现部分包含工程推测，不代表 OpenAI 公开实现细节。
+
 ## 1. Prompt Caching 基础回顾
 
 在分析 Extended Caching 之前，先回顾标准 Prompt Caching 的工作原理。
@@ -55,7 +58,7 @@ Extended Caching 将 KV Cache 的保留时间延长到最长 **24 小时**：
 
 ```json
 {
-    "model": "gpt-4o",
+    "model": "${OPENAI_MODEL}",
     "messages": [...],
     "prompt_cache_retention": "24h"    // 关键配置
 }
@@ -66,29 +69,27 @@ Extended Caching 将 KV Cache 的保留时间延长到最长 **24 小时**：
 | 维度 | 标准缓存 | Extended Caching |
 |------|---------|-----------------|
 | 保留时间 | 5-10 分钟 | 最长 24 小时 |
-| 存储位置 | GPU HBM（推测） | GPU-local NVMe SSD（推测） |
+| 存储位置 | GPU HBM（推测） | GPU-local storage（实现细节未公开） |
 | 存储内容 | KV tensors | KV tensors（不存原始文本） |
-| 费用 | 缓存命中 50% 折扣 | 缓存命中 50% 折扣 + 存储费用 |
-| ZDR 兼容 | 是 | 是 |
+| 费用 | cached token 价格以官方 pricing 为准 | 与 in-memory prompt caching 使用同一套 prompt cache pricing |
+| ZDR 兼容 | ZDR 请求可使用 in-memory caching | Extended retention 不适用于 ZDR 请求 |
 | 需要配置 | 否（自动） | 是（显式声明） |
 
-### 2.2 ZDR (Zero Data Retention) 合规
+### 2.2 ZDR (Zero Data Retention) 资格
 
-一个重要的设计决策——Extended Caching **只存储 KV tensors，不存储原始 prompt 文本**：
+一个重要的设计决策是：Extended Caching 保留的是模型 prefill 后的 KV tensors，而不是原始 prompt 文本：
 
 ```
 原始 Prompt: "请分析以下患者病历：张三，男，45岁..."
                     ↓ Prefill 计算
 KV Tensors:  [[[0.23, -0.15, ...], [0.87, 0.34, ...], ...]]  ← 只存这个
                     ↓
-存储到 NVMe: 纯数值矩阵，无法反向推断原始文本
+存储到 GPU-local storage: KV tensors
 ```
 
-**为什么 KV tensors 是安全的？**
+但是，**这不等于 ZDR 兼容**。截至本页更新时，OpenAI 官方文档说明：ZDR 请求可以使用 in-memory prompt caching，但 extended prompt caching 不适用于 ZDR 请求。原因很直接：24 小时 retention 本身就是一种数据保留。
 
-1. KV tensors 是 attention 机制的中间表示，经过多层非线性变换
-2. 从 KV tensors 反向恢复原始文本在计算上不可行（不是简单的可逆映射）
-3. 这使得 Extended Caching 可以兼容 ZDR 策略——即使在最严格的数据合规要求下也可以使用
+实践建议：如果业务要求 ZDR，使用默认 in-memory prompt caching；如果业务能接受 24 小时缓存 retention，再考虑 `prompt_cache_retention="24h"`。
 
 ### 2.3 缓存标识与定价
 
@@ -107,14 +108,14 @@ Extended Caching 的使用可以通过 API 响应中的 `usage` 字段确认：
 }
 ```
 
-**定价模型（以 GPT-4o 为例，2025 年）：**
+**定价模型：**
 
-| 类型 | 价格 |
+| 类型 | 说明 |
 |------|------|
-| Input tokens（无缓存） | $2.50 / 1M tokens |
-| Cached input tokens | $1.25 / 1M tokens (50% 折扣) |
-| Extended Caching 存储 | 额外计费（按缓存占用时间） |
-| Output tokens | $10.00 / 1M tokens |
+| Input tokens（无缓存） | 以官方 pricing 页面为准 |
+| Cached input tokens | 以官方 prompt cache pricing 为准 |
+| Extended retention | 与 in-memory prompt caching 使用同一套 prompt cache pricing |
+| Output tokens | 以官方 pricing 页面为准 |
 
 ## 3. 技术推测
 
@@ -147,7 +148,7 @@ Extended Caching 的使用可以通过 API 响应中的 `usage` 字段确认：
 └──────────────────────────────┘
 ```
 
-为什么推测使用 GPU-local NVMe 而不是 CPU DRAM？
+如果实现使用 GPU-local storage，为什么可能偏向 NVMe 而不是 CPU DRAM？
 - 24 小时保留需要大量存储，NVMe 容量更大（TB 级）
 - NVMe 持久化存储，即使进程重启数据也不会丢失
 - GPU 服务器通常配备高速 NVMe（PCIe 5.0 x4, ~7 GB/s）
@@ -207,7 +208,7 @@ def route_request(prompt_tokens, prompt_cache_key=None):
 
 ```json
 {
-    "model": "gpt-4o",
+    "model": "${OPENAI_MODEL}",
     "messages": [...],
     "prompt_cache_key": "customer_support_v2",
     "prompt_cache_retention": "24h"
@@ -217,14 +218,17 @@ def route_request(prompt_tokens, prompt_cache_key=None):
 **使用场景：**
 
 ```python
+import os
+
 # 场景：同一个 system prompt 用于多个对话
 # 使用 prompt_cache_key 确保这些请求路由到同一台机器
 
+model = os.environ["OPENAI_MODEL"]
 system_prompt = "You are a helpful customer support agent..."
 
 # 对话 1
 response1 = client.chat.completions.create(
-    model="gpt-4o",
+    model=model,
     messages=[
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": "我的订单在哪里？"}
@@ -235,7 +239,7 @@ response1 = client.chat.completions.create(
 
 # 对话 2（不同用户，但 system prompt 相同）
 response2 = client.chat.completions.create(
-    model="gpt-4o",
+    model=model,
     messages=[
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": "如何退货？"}
@@ -294,8 +298,9 @@ Anthropic 的 Prompt Caching 采用了不同的设计哲学：
 
 ```python
 # Anthropic 的 Prompt Caching 需要显式标记 cache breakpoints
+model = os.environ["ANTHROPIC_MODEL"]
 response = client.messages.create(
-    model="claude-sonnet-4-20250514",
+    model=model,
     max_tokens=1024,
     system=[
         {
@@ -316,9 +321,9 @@ response = client.messages.create(
 | 最小前缀 | 1024 tokens | 1024 tokens (Sonnet) / 2048 (Haiku) | 不适用（独立 API） |
 | 标准保留时间 | 5-10 分钟 | 5 分钟 | 用户指定 TTL |
 | Extended 保留 | 24 小时 | 无 | 用户指定（最长数小时） |
-| 计费模式 | 缓存命中 50% 折扣 | 缓存写入 25% 加价 + 命中 90% 折扣 | 按缓存存储时间计费 |
+| 计费模式 | cached token pricing，以官方 pricing 为准；extended 与 in-memory 同 pricing | 缓存写入加价 + cache read 折扣，以官方 pricing 为准 | 按官方 Context Caching pricing |
 | Cache Key | prompt_cache_key | 无 | 无 |
-| ZDR 兼容 | 是 | 否（有 cache 就有数据保留） | 否 |
+| ZDR 兼容 | in-memory caching 可用于 ZDR；extended retention 不适用于 ZDR | 以官方数据保留政策为准 | 以官方数据保留政策为准 |
 
 ### 4.2 Google Gemini Context Caching
 
@@ -376,12 +381,14 @@ Google：独立服务 + 完全显式
 
 ```python
 from openai import OpenAI
+import os
 
 client = OpenAI()
+model = os.environ["OPENAI_MODEL"]
 
 # 基本 Extended Caching 配置
 response = client.chat.completions.create(
-    model="gpt-4o",
+    model=model,
     messages=[
         {"role": "system", "content": long_system_prompt},  # >= 1024 tokens
         {"role": "user", "content": user_query}
@@ -403,7 +410,7 @@ def create_tenant_response(tenant_id: str, user_message: str):
     tenant_config = load_tenant_config(tenant_id)
     
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model=model,
         messages=[
             {"role": "system", "content": tenant_config.system_prompt},
             {"role": "user", "content": user_message}
@@ -502,7 +509,6 @@ def calculate_extended_cache_savings(
     cache_hit_rate: float,       # 0-1
     input_price: float,          # $/M tokens
     cached_price: float,         # $/M tokens
-    storage_cost_per_day: float, # $/day for extended caching
 ):
     """计算 Extended Caching 的每日净节省"""
     
@@ -517,7 +523,6 @@ def calculate_extended_cache_savings(
     daily_cost_with_cache = (
         (cached_tokens * cached_price + uncached_tokens * input_price)
         * queries_per_day / 1_000_000
-        + storage_cost_per_day
     )
     
     savings = daily_cost_no_cache - daily_cost_with_cache
@@ -528,9 +533,8 @@ savings = calculate_extended_cache_savings(
     prompt_length=10000,       # 10K tokens prompt
     queries_per_day=1000,
     cache_hit_rate=0.7,        # 70% 命中率
-    input_price=2.50,          # $2.50/M tokens
-    cached_price=1.25,         # $1.25/M tokens
-    storage_cost_per_day=0.50, # $0.50/day 存储费
+    input_price=2.50,          # 示例价格，真实值以官方 pricing 为准
+    cached_price=1.25,         # 示例价格，真实值以官方 pricing 为准
 )
 print(f"每日净节省: ${savings:.2f}")
 # → 每日净节省: $8.25
@@ -541,9 +545,9 @@ print(f"每日净节省: ${savings:.2f}")
 | 要点 | 说明 |
 |------|------|
 | Extended Caching | 将 KV Cache 保留时间从分钟级延长到 24 小时 |
-| 存储推测 | 使用 GPU-local NVMe SSD 存储 KV tensors |
+| 存储推测 | 使用 GPU-local storage 存储 KV tensors，具体实现未公开 |
 | Hash Routing | 通过 prompt 前缀 hash 将请求路由到同一台机器 |
-| ZDR 合规 | 只存 KV tensors（不可逆的中间表示），不存原始文本 |
+| ZDR 资格 | in-memory caching 可用于 ZDR；extended retention 不适用于 ZDR |
 | prompt_cache_key | 显式控制缓存路由，提高命中率 |
 | 速率限制 | 15 req/min per prefix+key，避免单机过载 |
 | 最佳实践 | 将不变内容放在 prompt 前部，合理分组 cache key |

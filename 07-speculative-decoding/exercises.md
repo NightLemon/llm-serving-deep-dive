@@ -333,7 +333,7 @@ if __name__ == "__main__":
 ### 前置条件
 
 - 一台有 A100 40G/80G（或同级 GPU）的机器
-- 安装 vLLM >= 0.8.0
+- 安装当前 latest vLLM，并用 `vllm serve --help | rg "speculative"` 复核投机解码参数
 - 至少 80GB 可用显存（用于加载模型和 draft model）
 
 ### 任务

@@ -106,12 +106,13 @@ response.usage = {
 Anthropic 采用了显式的 cache control 标记：
 
 ```python
-import anthropic
+import anthropic, os
 
 client = anthropic.Anthropic()
+model = os.environ["ANTHROPIC_MODEL"]  # 先查官方 docs，再设置当前支持 prompt caching 的模型
 
 response = client.messages.create(
-    model="claude-sonnet-4-20250514",
+    model=model,
     max_tokens=1024,
     system=[
         {

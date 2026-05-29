@@ -348,13 +348,14 @@ if __name__ == "__main__":
 ### 前置条件
 
 - 至少 2 个 GPU（可以是同一台机器上的）
-- vLLM >= 0.8.0
+- vLLM 使用当前 latest release；先按 [版本基线与 Freshness Gate](../resources/version-baseline.md) 复核 disaggregated serving / KV transfer 参数
 - Python >= 3.10
 
 ### Step 1：安装 vLLM
 
 ```bash
-pip install vllm>=0.8.0
+pip install -U vllm
+vllm serve --help | rg "disagg|kv-transfer|kv_transfer"
 ```
 
 ### Step 2：启动 Prefill 节点

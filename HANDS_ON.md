@@ -5,9 +5,10 @@
 **如何使用本文档**
 
 1. 先读 [STUDY_GUIDE.md](STUDY_GUIDE.md) 第 1-2 节，判断你的 Level
-2. 读本文档 [Section 0](#0) 确认硬件路径
-3. 按 [Section 3](#3-13-checklist) 逐章学，每章用配套自查题验收
-4. 时间宽裕？跟 [Section 5](#5-5) 走 5 周高强度路线
+2. 先过 [版本基线与 Freshness Gate](resources/version-baseline.md)，确认 vLLM/SGLang/API 文档没有过期
+3. 读本文档 [Section 0](#0) 确认硬件路径
+4. 按 [Section 3](#3-13-checklist) 逐章学，每章用配套自查题验收
+5. 时间宽裕？跟 [Section 5](#5-5) 走 5 周高强度路线
 
 ---
 

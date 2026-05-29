@@ -13,6 +13,7 @@
 ```bash
 pip install anthropic
 export ANTHROPIC_API_KEY="your-api-key"
+export ANTHROPIC_MODEL="查官方 docs 后填当前支持 prompt caching 的模型"
 ```
 
 ### 实验代码
@@ -22,10 +23,12 @@ export ANTHROPIC_API_KEY="your-api-key"
 实验 1：观察 Anthropic Prompt Caching 的 cache 建立与命中行为。
 """
 import anthropic
+import os
 import time
 import json
 
 client = anthropic.Anthropic()
+model = os.environ["ANTHROPIC_MODEL"]
 
 # 构造一个足够长的 system prompt（> 1024 tokens）
 # 使用重复内容确保超过最小 token 数
@@ -70,7 +73,7 @@ results = []
 
 for i, question in enumerate(questions):
     response = client.messages.create(
-        model="claude-sonnet-4-20250514",
+        model=model,
         max_tokens=100,
         system=[
             {
@@ -153,6 +156,14 @@ print(f"节省: ${total_normal_cost - total_cached_cost:.6f} "
 
 验证 OpenAI 的全自动 Prompt Caching 行为，观察 `cached_tokens` 字段。
 
+### 准备
+
+```bash
+pip install openai
+export OPENAI_API_KEY="your-api-key"
+export OPENAI_MODEL="查官方 docs 后填当前支持 prompt caching 的模型"
+```
+
 ### 实验代码
 
 ```python
@@ -160,9 +171,11 @@ print(f"节省: ${total_normal_cost - total_cached_cost:.6f} "
 实验 2：观察 OpenAI Prompt Caching 的自动触发行为。
 """
 from openai import OpenAI
+import os
 import time
 
 client = OpenAI()
+model = os.environ["OPENAI_MODEL"]
 
 # 构造长 system prompt（> 1024 tokens）
 system_prompt = """You are a senior software architect with extensive 
@@ -222,7 +235,7 @@ print("=" * 60)
 
 for i, question in enumerate(questions):
     response = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model=model,
         max_tokens=100,
         messages=[
             {"role": "system", "content": system_prompt},

@@ -60,7 +60,7 @@ pip install openai outlines
 export OPENAI_API_KEY="..."
 ```
 
-任选一个 7B 以下的本地可加载模型，或者直接用 OpenAI `gpt-4o-mini` 作为对比基线。
+任选一个 7B 以下的本地可加载模型，或者使用 OpenAI 当前官方文档中支持 Structured Outputs 的低成本模型作为对比基线。模型名不要照抄旧示例，先按 [版本基线与 Freshness Gate](../resources/version-baseline.md) 复核。
 
 ### 任务
 
@@ -96,7 +96,7 @@ export OPENAI_API_KEY="..."
 ### 环境
 
 - 1 张 L4 / L40S / A100，24GB+
-- vLLM ≥ 0.6.x
+- vLLM 使用当前 latest release；如果固定旧版本，先用 `vllm serve --help` 确认 structured outputs 参数名
 - 模型：Qwen2.5-7B-Instruct
 
 ### 实验

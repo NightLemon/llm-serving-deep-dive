@@ -105,7 +105,7 @@
 
 ### 准备
 
-任选 Anthropic Claude 或 OpenAI GPT-4o（都支持 vision）。准备 4 张测试图：
+任选 Anthropic Claude 或 OpenAI 当前官方文档中支持 vision 的模型。模型名和计费规则变化很快，实验前先按 [版本基线与 Freshness Gate](../resources/version-baseline.md) 复核。准备 4 张测试图：
 
 - A: 256×256 简单图（如 logo）
 - B: 1024×1024 中等图（如风景照）
@@ -118,14 +118,15 @@
 
 ```python
 # Anthropic 示例
-import anthropic, base64
+import anthropic, base64, os
 
 client = anthropic.Anthropic()
+model = os.environ["ANTHROPIC_VISION_MODEL"]  # 先查官方 docs，再设置当前 vision 模型名
 for path in ["a.png", "b.png", "c.png", "d.png"]:
     with open(path, "rb") as f:
         img_b64 = base64.b64encode(f.read()).decode()
     resp = client.messages.create(
-        model="claude-sonnet-4-5",
+        model=model,
         max_tokens=64,
         messages=[{
             "role": "user",

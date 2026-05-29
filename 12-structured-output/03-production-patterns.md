@@ -12,8 +12,9 @@ JSON mode 只保证输出是**语法上合法的 JSON**，但不保证符合任�
 
 ```python
 # OpenAI API 示例
+model = os.environ["OPENAI_STRUCTURED_OUTPUT_MODEL"]  # 先查官方 docs，再设置当前支持的模型
 response = client.chat.completions.create(
-    model="gpt-4o",
+    model=model,
     messages=[...],
     response_format={"type": "json_object"}  # JSON mode
 )
@@ -32,8 +33,9 @@ Structured output 保证输出**严格匹配提供的 JSON Schema**——字段�
 
 ```python
 # OpenAI API 示例
+model = os.environ["OPENAI_STRUCTURED_OUTPUT_MODEL"]
 response = client.chat.completions.create(
-    model="gpt-4o",
+    model=model,
     messages=[...],
     response_format={
         "type": "json_schema",
