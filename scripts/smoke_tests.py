@@ -25,6 +25,7 @@ def run_script(script: str, *args: str, expect: str) -> None:
 
 
 def main() -> int:
+    run_script("content_checks.py", expect="ok: content checks")
     run_script(
         "kv_cache_calculator.py",
         "--layers",

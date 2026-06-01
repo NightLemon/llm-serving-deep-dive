@@ -80,6 +80,7 @@ Cache-aware 路由的核心很简单：**将具有相同前缀的请求路由到
 根据 OpenAI 的公开文档和 API 行为分析，他们的 prompt caching 实现有几个关键特征：
 
 **前 256 tokens hash 路由：**
+
 - 取 prompt 的前 256 个 tokens 计算 hash 值
 - 相同 hash 值的请求路由到同一组 GPU
 - 256 tokens 通常覆盖了 system prompt 的核心部分
@@ -97,6 +98,7 @@ response.usage = {
 ```
 
 **缓存粒度为 128 tokens：**
+
 - 缓存以 128 token 为单位对齐
 - prompt 长度必须 >= 1024 tokens 才会触发缓存（2025 年初已降低到更小的粒度）
 - 缓存存活时间：5-10 分钟不活跃后自动淘汰
@@ -160,6 +162,7 @@ class ContentHashRouter:
 **优点：** 实现简单，相同前缀一定路由到同一 replica。
 
 **缺点：**
+
 - replica 数量变化时，几乎所有路由都会改变 → 缓存全部失效
 - 无法感知 replica 的负载状态
 - 热门前缀可能导致单个 replica 过载
@@ -213,6 +216,7 @@ class ConsistentHashRouter:
 ```
 
 **关键特性：**
+
 - 增加一个 replica 时，只有 `1/N` 的请求需要重新路由
 - 删除一个 replica 时，只有该 replica 的请求被重新分配
 - 虚拟节点确保负载均匀分布
@@ -549,15 +553,18 @@ async def proxy_chat(request: Request):
 ### 5.2 调优建议
 
 **选择合适的前缀长度：**
+
 - 太短（< 64 tokens）：不同 prompt 可能 hash 碰撞
 - 太长（> 1024 tokens）：hash 计算开销增大，且降低命中灵活性
 - 推荐：128-256 tokens，覆盖 system prompt 核心部分
 
 **虚拟节点数量：**
+
 - 一致性哈希中，虚拟节点越多，负载越均匀
 - 推荐：每个物理 replica 100-200 个虚拟节点
 
 **负载过高时的 fallback：**
+
 - 当首选 replica 负载超过阈值时，应 fallback 到次优 replica
 - cache miss 的代价远小于排队等待的代价
 
@@ -576,6 +583,7 @@ async def proxy_chat(request: Request):
 ---
 
 > **延伸阅读：**
+>
 > - SGLang RadixAttention 论文中关于 cache-aware scheduling 的讨论
 > - [vLLM 多实例部署文档](https://docs.vllm.ai/en/latest/)
 > - Envoy Ring Hash Load Balancer 官方文档

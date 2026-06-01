@@ -15,12 +15,14 @@
 ### 1. Continuous Batching 深入（01-continuous-batching.md）
 
 **从概念到实现：**
+
 - Iteration-level scheduling（Orca 论文）的核心思想
 - 每个 decode step 都可以加入新请求 / 移除已完成请求
 - 与 static batching 的吞吐量对比公式推导
 - "padding 浪费" 的精确量化
 
 **Micro-batching 策略：**
+
 - 一个 iteration 内如何组织 prefill 和 decode 请求
 - Prefill 请求的插入时机：是否与 decode 混合执行？
 - piggybacking：将 prefill 的最后一个 token 视为 decode token
@@ -28,6 +30,7 @@
 ### 2. vLLM Scheduler 源码走读（02-vllm-scheduler.md）
 
 **核心文件：**
+
 - `vllm/v1/core/sched/scheduler.py` — 主调度器
   - `schedule()` 方法的完整流程
   - Running queue / Waiting queue / Swapped queue 管理
@@ -60,17 +63,20 @@ schedule() {
 **问题：长 prompt 的 prefill 会阻塞 decode 请求**
 
 **解决方案：**
+
 - 将长 prompt 切成固定大小的 chunk（如 512 tokens）
 - 每次 iteration 只处理一个 chunk
 - 其余 chunk 在后续 iteration 中处理
 - 期间 decode 请求可以正常执行
 
 **实现细节：**
+
 - `--enable-chunked-prefill` / `--max-num-batched-tokens`
 - Chunk 大小对 TTFT 和 TBT 的影响
 - 源码：Scheduler 如何跟踪 partial prefill 的状态
 
 **权衡：**
+
 - Chunk 太大 → decode 延迟增加
 - Chunk 太小 → prefill 效率降低（GPU 利用率下降）
 - 最优 chunk size 取决于硬件和工作负载
@@ -78,16 +84,19 @@ schedule() {
 ### 4. 请求优先级与公平性（04-priority-fairness.md）
 
 **优先级调度：**
+
 - vLLM 的 `priority` 参数
 - 如何实现：高优先级请求可以抢占低优先级请求的 KV Cache
 - 使用场景：付费用户 vs 免费用户
 
 **公平性保障：**
+
 - 避免 "饥饿"：低优先级请求等待过久
 - Aging 机制：等待时间越长，优先级逐步提升
 - Token 级公平 vs 请求级公平
 
 **SLA-aware 调度：**
+
 - TTFT SLA：控制首 token 延迟
 - TBT SLA：控制每 token 间隔
 - 如何在吞吐量和延迟之间取得平衡
@@ -95,12 +104,14 @@ schedule() {
 ### 5. Dual Batch Overlap (DBO)（05-dbo.md）
 
 **概念：**
+
 - 论文/设计文档：vLLM DBO
 - 将 GPU 执行和 CPU 调度 overlap
 - 当前 batch 在 GPU 执行时，CPU 同时计算下一个 batch 的调度方案
 - 减少调度的 CPU overhead 对吞吐量的影响
 
 **源码走读：**
+
 - `vllm/v1/core/sched/async_scheduler.py` — 异步调度器
 
 ## 📄 参考论文

@@ -548,6 +548,7 @@ chunk_hash = xxhash.xxh128(bytes(token_ids[:256])).hexdigest()
 ```
 
 **前提条件：**
+
 - 所有实例使用相同的 tokenizer 和模型
 - 所有实例连接同一个 Redis
 - Token IDs 的确定性（相同文本 → 相同 token IDs）

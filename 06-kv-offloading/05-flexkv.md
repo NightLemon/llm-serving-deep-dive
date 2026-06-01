@@ -179,6 +179,7 @@ GPU 内存节省: 3836/4096 = 93.7%！
 ```
 
 **这种策略的理论基础来自 StreamingLLM 等研究：**
+
 - Attention Sink 现象：即使在非常长的 context 中，模型对前几个 token 的 attention 权重始终很高
 - Local Window：在 decode 时，模型最关注最近的 tokens
 
@@ -315,11 +316,13 @@ CXL 3.0 规范引入了几个对 KV Cache 管理特别相关的特性：
 3. **能效优势**：减少数据搬运，降低能耗
 
 **现有 PIM 硬件示例：**
+
 - Samsung HBM-PIM：在 HBM 内部集成了简单的 SIMD 计算单元
 - UPMEM PIM：在 DRAM DIMM 内部集成了通用处理器
 - SK Hynix AiM：专为 AI 推理设计的 PIM 架构
 
 **挑战：**
+
 - PIM 计算单元的算力有限，无法执行复杂的 attention 计算
 - 适合简单的向量操作（如 KV Cache 的 gather/scatter）
 - 编程模型尚不成熟

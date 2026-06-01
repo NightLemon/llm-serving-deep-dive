@@ -369,6 +369,7 @@ PagedAttention 的核心价值在于**将成熟的操作系统思想迁移到新
 ---
 
 **延伸阅读：**
+
 - [原始论文 PDF](https://arxiv.org/abs/2309.06180)
 - [SOSP 2023 演讲视频](https://www.youtube.com/watch?v=KLFadWdomyI)
 - [vLLM 官方博客：vLLM: Easy, Fast, and Cheap LLM Serving](https://blog.vllm.ai/2023/06/20/vllm.html)

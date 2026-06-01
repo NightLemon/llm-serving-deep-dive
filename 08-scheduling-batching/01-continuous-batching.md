@@ -206,6 +206,7 @@ With piggybacking:
 ```
 
 **收益：**
+
 - TTFT（Time To First Token）减少一个 decode step 的时间
 - 在 TTFT 敏感的场景（交互式聊天）中非常有价值
 - vLLM 和大多数现代 serving 框架默认启用此优化

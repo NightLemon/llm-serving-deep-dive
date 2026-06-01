@@ -101,6 +101,7 @@ LLM 推理中的 KV Cache 具有明显的**访问局部性**：
 ```
 
 **典型场景：**
+
 - **Preemption offload**：高优先级请求到来，低优先级请求的 KV Cache 被卸载到 CPU
 - **Capacity-driven offload**：GPU block pool 接近满载，主动驱逐最不活跃的 KV blocks
 - **Speculative offload**：预测某些请求短期内不会被调度，提前卸载
@@ -268,6 +269,7 @@ class LRUCache:
 ```
 
 **LRU 的优缺点：**
+
 - 优点：实现简单，O(1) 操作，适合大多数场景
 - 缺点：无法区分 "偶尔访问一次" 和 "频繁访问" 的 block。一次性扫描（如长 prompt 的 prefill）可能污染 cache
 
@@ -290,6 +292,7 @@ ARC 维护四个列表：
 ```
 
 **ARC 的优势：**
+
 - 自动适应不同的访问模式，无需手动调参
 - 对 scan-resistant（扫描抗性）更好——一次性 prefill 不会轻易污染频繁访问的 cache
 - 在 KV Cache offloading 场景中，某些 prefix 的 KV Cache 被反复使用（高 frequency），ARC 能更好地保护它们

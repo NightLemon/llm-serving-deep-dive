@@ -22,12 +22,14 @@
 | NVMe SSD | 1-8 TB | ~7 GB/s | ~10μs | $ |
 
 **关键洞察：**
+
 - GPU HBM 是最稀缺的资源，KV Cache 是 HBM 的最大消费者
 - CPU DRAM 容量是 GPU HBM 的 10-50 倍，成本更低
 - 将 "冷" KV Cache offload 到 CPU，为 "热" 请求腾出 GPU 空间
 - 异步传输：利用 CUDA stream overlap 隐藏传输延迟
 
 **与 OS 虚拟内存的类比：**
+
 - GPU HBM ≈ 物理内存
 - CPU DRAM ≈ Swap 分区
 - SSD ≈ 磁盘
@@ -36,6 +38,7 @@
 ### 2. vLLM KV Offloading 源码分析（02-vllm-offloading.md）
 
 **核心源码：**
+
 - `vllm/v1/kv_offload/` — offloading 框架
   - `abstract.py`：抽象接口定义
   - `cpu/manager.py`：CPU offload 管理器
@@ -49,6 +52,7 @@
 - `vllm/distributed/kv_transfer/kv_connector/v1/offloading_connector.py` — 连接器
 
 **驱逐策略：**
+
 - **LRU (Least Recently Used)**：最简单有效的策略
 - **ARC (Adaptive Replacement Cache)**：自适应地在 recency 和 frequency 间平衡
 - 何时触发驱逐？—— GPU block pool 使用率超过阈值时
@@ -56,6 +60,7 @@
 ### 3. OpenAI Extended Prompt Caching 分析（03-extended-caching.md）
 
 **OpenAI 的做法（截至 2026 年 4 月）：**
+
 - 标准缓存：KV tensors 保持在 GPU 显存中，5-10 分钟过期
 - **Extended Caching**：将 KV tensors offload 到 GPU-local storage（本地 NVMe）
   - 最长保留 24 小时
@@ -64,6 +69,7 @@
 - 配置：`"prompt_cache_retention": "24h"`
 
 **技术推测（基于已公开信息）：**
+
 - Hash-based routing：通过 prompt 前缀的 hash 将请求路由到同一台机器
 - `prompt_cache_key`：用户可指定额外的路由 key，提高 cache 命中率
 - 每个 prefix + key 组合限制约 15 req/min，避免单机过载
@@ -71,21 +77,25 @@
 ### 4. LMCache 集成（04-lmcache.md）
 
 **LMCache 是什么：**
+
 - 独立的 KV Cache 管理库，可与 vLLM 集成
 - 支持多种后端：CPU DRAM、Redis、本地磁盘
 - 跨请求、跨实例的 KV Cache 共享
 
 **vLLM 集成方式：**
+
 - `vllm/distributed/kv_transfer/kv_connector/v1/lmcache_connector.py`
 - 配置 `--kv-transfer-config` 使用 LMCache 后端
 
 **适用场景：**
+
 - 多个 vLLM 实例共享 KV Cache（如 A/B 测试场景）
 - 需要超大容量 KV Cache 存储
 
 ### 5. FlexKV 与未来方向（05-flexkv.md）
 
 **FlexKV：**
+
 - vLLM 中的灵活 KV Cache 管理实验特性
 - 支持更细粒度的 offloading 控制
 - `prefix_caching_flexkv` 示例

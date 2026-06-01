@@ -848,11 +848,13 @@ if __name__ == "__main__":
 为一个 LLM 推理服务设计 KV Cache 管理系统，满足以下约束：
 
 **硬件环境：**
+
 - 4 台服务器，每台 8×H100 (80GB)，512 GB CPU DRAM，2×3.84TB NVMe
 - InfiniBand HDR (200 Gbps) 连接
 - 一个 Redis Cluster (6 节点，共 384 GB 内存)
 
 **业务需求：**
+
 - 模型：Llama-3.1-70B (FP8 部署，权重 ~70 GB)
 - 日均 100 万次请求
 - 平均 context 长度：8K tokens，最长 128K tokens

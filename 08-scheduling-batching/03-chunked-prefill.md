@@ -69,6 +69,7 @@ Iteration 8: [prefill 512] [decode x30]  ← 耗时 ~70ms  (8 个 iteration 完�
 ```
 
 **效果：**
+
 - TBT 从 450ms 降低到 ~70ms（仍高于纯 decode 的 20ms，但大幅改善）
 - 代价：TTFT 从 450ms 增加到 8 * 70ms = 560ms（prefill 分摊到多个 iteration）
 

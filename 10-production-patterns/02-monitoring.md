@@ -519,6 +519,7 @@ groups:
 ```
 
 **关键问题：**
+
 - vLLM 只在 rank 0 暴露 metrics endpoint
 - GPU 级别的指标（显存、利用率、温度）需要通过 DCGM Exporter 单独采集
 - 通信指标（NCCL AllReduce 延迟）默认不暴露
@@ -634,6 +635,7 @@ avg_over_time(vllm:avg_generation_throughput_toks_per_s[1h])
 ---
 
 > **延伸阅读：**
+>
 > - [vLLM Metrics 文档](https://docs.vllm.ai/en/latest/serving/metrics.html)
 > - [DCGM Exporter GitHub](https://github.com/NVIDIA/dcgm-exporter)
 > - Grafana 官方 LLM 推理 Dashboard 模板

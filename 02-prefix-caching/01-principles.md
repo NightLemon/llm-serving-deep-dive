@@ -56,10 +56,12 @@ Cache Key: hash(token_0, token_1, ..., token_i)  →  KV[i]
 ```
 
 **优点：**
+
 - 精确匹配，浪费最少
 - 灵活性最高
 
 **缺点：**
+
 - Hash table 条目数 = 所有缓存请求的 token 数之和，内存开销巨大
 - 每个 token 都需要一次 hash lookup，查找延迟高
 - 与 PagedAttention 的 block 管理机制不兼容
@@ -75,12 +77,14 @@ Block 2: [t_32, t_33, ..., t_47]   →  KV[32:48]
 ```
 
 **优点：**
+
 - 与 PagedAttention 的物理 block 天然对齐
 - Hash table 条目数减少 16-32 倍
 - 查找只需匹配 block 数（而非 token 数）
 - GPU 内存管理更高效（减少碎片）
 
 **缺点：**
+
 - 最后一个 block 可能未填满，浪费 partial block 的匹配机会
 - 前缀匹配必须以 block 为边界对齐
 
@@ -338,14 +342,17 @@ OpenAI 的 Prompt Caching 在定价上更简单：
 虽然 cache 看起来总是有利的，但有几种情况需要注意：
 
 **1. 前缀太短，无法触发 cache**
+
 - Anthropic 要求至少 1024 token（Claude Sonnet/Opus），Haiku 要求 2048 token
 - 如果 system prompt 只有 500 token，无法使用 prompt caching
 
 **2. 前缀变化频繁**
+
 - 如果每次请求的前缀都不同，每次都是 cache write（1.25x），反而比不 cache 更贵
 - 例如：在 system prompt 中包含当前时间戳、随机 session ID 等
 
 **3. Cache 在 TTL 内未被再次命中**
+
 - 写入了 cache 但在 5 分钟 TTL 内没有第二次请求
 - 白白多付了 25% 的 write 成本
 

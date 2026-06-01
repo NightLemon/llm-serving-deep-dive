@@ -15,23 +15,27 @@
 ### 1. Cache-Aware 路由与负载均衡（01-routing.md）
 
 **为什么需要 cache-aware 路由？**
+
 - 传统 round-robin 路由：每个请求随机分配到一个 replica
 - 问题：相同前缀的请求分散到不同 replica → cache hit rate 低
 - Cache-aware 路由：基于 prompt 前缀 hash 路由到同一 replica
 - OpenAI 的做法：前 256 tokens hash + `prompt_cache_key` 路由
 
 **路由策略：**
+
 - Content-hash 路由：hash(prompt_prefix) → replica
 - Consistent hashing：replica 增减时最小化 cache 失效
 - 热度感知：将高频 prompt 的 replica 副本数增加
 
 **实现参考：**
+
 - Nginx / Envoy 中的自定义 hash 路由
 - vLLM multi-instance 部署中的路由方案
 
 ### 2. 监控与可观测性（02-monitoring.md）
 
 **vLLM 内置指标（Prometheus）：**
+
 - `vllm:num_requests_running` — 正在处理的请求数
 - `vllm:num_requests_waiting` — 等待队列长度
 - `vllm:gpu_cache_usage_perc` — GPU KV Cache 使用率
@@ -43,12 +47,14 @@
 - `vllm:time_per_output_token_seconds` — TBT
 
 **Grafana Dashboard 设计：**
+
 - 吞吐量面板（input tokens/s, output tokens/s）
 - 延迟面板（P50, P90, P99 TTFT 和 TBT）
 - KV Cache 利用率面板
 - 队列深度面板
 
 **告警规则建议：**
+
 - KV Cache 使用率 > 95%（可能触发 preemption）
 - 等待队列 > N（可能需要扩容）
 - P99 TTFT > SLA（可能需要增加 prefill 资源）
@@ -56,6 +62,7 @@
 ### 3. 性能 Profiling（03-profiling.md）
 
 **诊断方法论：**
+
 1. **识别瓶颈类型：**
    - Compute-bound：GPU SM 利用率高，显存带宽有余 → prefill 阶段
    - Memory-bound：显存带宽接近上限，GPU SM 空闲 → decode 阶段
@@ -83,11 +90,13 @@
 ### 4. 成本优化（04-cost-optimization.md）
 
 **TCO 分析框架：**
+
 - 硬件成本：GPU 租赁 / 采购
 - 能耗成本：功率 × 时间
 - 人力成本：运维管理
 
 **优化策略：**
+
 - **Prompt Caching**：减少重复计算，cache read 费用远低于重新 prefill
 - **量化**：FP8 推理 → 同等显存服务更多请求
 - **Speculative Decoding**：减少 decode 步数 → 提高吞吐量
@@ -105,17 +114,20 @@
 ### 5. 故障恢复与高可用（05-high-availability.md）
 
 **故障场景：**
+
 - GPU 故障：单卡 hang，整机宕机
 - 网络故障：TP 通信中断
 - OOM：KV Cache 分配失败
 
 **应对策略：**
+
 - Health check + 自动重启
 - 请求重试与幂等性
 - Graceful degradation：降级到更小的 batch size
 - Sleep mode：空闲时释放 GPU 资源，按需唤醒
 
 **vLLM 相关功能：**
+
 - Sleep mode：`vllm/features/sleep_mode.md`
 - Pause/Resume：热暂停和恢复
 - KV load failure recovery
@@ -123,11 +135,13 @@
 ### 6. 模型更新与灰度发布（06-model-updates.md）
 
 **在不停服的情况下更新模型：**
+
 - 蓝绿部署：新模型部署在新实例，切换路由
 - 金丝雀发布：部分流量切到新模型
 - A/B 测试：不同用户组使用不同模型
 
 **KV Cache 兼容性问题：**
+
 - 模型更新后，旧的 KV Cache 是否还有效？
 - 通常不兼容 → 需要清除缓存或等待过期
 

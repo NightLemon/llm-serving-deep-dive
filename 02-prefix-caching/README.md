@@ -15,6 +15,7 @@
 ### 1. 前缀缓存原理（01-principles.md）
 
 **核心概念：**
+
 - 为什么前缀可以共享？—— Causal Attention 的因果性保证
 - Cache 粒度：token 级 vs block 级 vs 请求级
 - Hash 匹配机制：如何快速判断两个前缀是否相同？
@@ -22,6 +23,7 @@
 - TTL（Time-To-Live）与驱逐策略：LRU、LFU、ARC
 
 **关键洞察：**
+
 - Cached token 的成本结构（以 Anthropic 为例）：
   - Cache write = 1.25x 基础价格
   - Cache read = 0.1x 基础价格（打一折）
@@ -32,6 +34,7 @@
 ### 2. vLLM APC 源码分析（02-vllm-apc.md）
 
 **源码走读：**
+
 - `vllm/v1/core/kv_cache_utils.py` — hash 计算与 block 匹配逻辑
 - `vllm/v1/core/kv_cache_manager.py` — cache hit 判定与 block 复用
 - `vllm/v1/core/block_pool.py` — 物理 block 的引用计数与回收
@@ -40,18 +43,21 @@
 - `--enable-prefix-caching` 参数的代码路径
 
 **关键数据结构：**
+
 - `PrefixHash`：block 内容的唯一标识
 - `BlockPool`：物理 block 管理器，支持引用计数和 copy-on-write
 
 ### 3. SGLang RadixAttention（03-radix-attention.md）
 
 **论文解读：**
+
 - [SGLang: Efficient Execution of Structured Language Model Programs](https://arxiv.org/abs/2312.07104)
 - Radix Tree 数据结构在 KV Cache 管理中的应用
 - 与 vLLM APC 的对比：树形结构 vs 哈希表
 - 优势：支持任意共享前缀的子树复用，不仅仅是完整前缀
 
 **源码走读：**
+
 - SGLang RadixCache 的核心实现
 - insert / match / evict 操作
 
@@ -69,6 +75,7 @@
 | 跨请求共享 | 同 org | 同 workspace | 同项目 |
 
 **工程实践：**
+
 - 如何设计 prompt 结构以最大化 cache hit？
   - 静态内容（system prompt、tools）放最前面
   - 动态内容（用户消息）放最后

@@ -759,6 +759,7 @@ async def inference_with_lora(endpoint: str, messages: list, lora_name: str):
 ```
 
 **LoRA 热更新的优势：**
+
 - 加载时间：秒级（vs 全模型的分钟级）
 - 显存开销：几十 MB（vs 几十 GB）
 - 不影响基础模型的 KV Cache
@@ -780,6 +781,7 @@ async def inference_with_lora(endpoint: str, messages: list, lora_name: str):
 ---
 
 > **延伸阅读：**
+>
 > - [vLLM LoRA 支持文档](https://docs.vllm.ai/en/latest/models/lora.html)
 > - Kubernetes Rolling Update 策略详解
 > - Martin Fowler: Blue-Green Deployment 原始文章

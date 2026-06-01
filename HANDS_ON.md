@@ -25,6 +25,7 @@
 ### 0.2 3070 (8GB) 能做什么 / 不能做什么
 
 **能跑**
+
 - ✅ 所有纯 Python 模拟器、计算器（Ch01/03/04/05/06/07/08/09 的练习 1）
 - ✅ 所有 API 实验（Ch02 prompt caching、Ch12 structured output、Ch13 vision）
 - ✅ vLLM + 小模型：Qwen2.5-1.5B、SmolLM2-1.7B、Moondream-2B、Qwen2-VL-2B
@@ -32,6 +33,7 @@
 - ✅ 阅读 vLLM 源码 + 加 print 跟踪（不需要满血推理）
 
 **跑不动**
+
 - ❌ 任何 TP/PP/EP 多卡实验
 - ❌ FP16 / BF16 的 7B 满血模型
 - ❌ Prefill-Decode 分离架构（至少要 2 卡）

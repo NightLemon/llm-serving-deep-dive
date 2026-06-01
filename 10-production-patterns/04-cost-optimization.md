@@ -389,6 +389,7 @@ spec:
 ```
 
 **注意事项：**
+
 - LLM 推理服务的启动时间较长（模型加载需要数分钟），扩容不能太激进
 - 缩容时需要 graceful shutdown，等待正在处理的请求完成
 - 考虑使用预热池（warm pool）：保持 1-2 个预加载好模型的备用实例
@@ -624,6 +625,7 @@ avg(DCGM_FI_DEV_GPU_UTIL{job="dcgm"}) / 100
 ---
 
 > **延伸阅读：**
+>
 > - [Anthropic Prompt Caching 定价](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching)
 > - [vLLM 量化指南](https://docs.vllm.ai/en/latest/quantization/)
 > - 各云厂商 GPU 实例定价页面

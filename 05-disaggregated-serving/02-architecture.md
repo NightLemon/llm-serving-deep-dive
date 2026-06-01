@@ -35,6 +35,7 @@
 ### 1.1 Router / Load Balancer
 
 **职责：**
+
 - 接收客户端请求，将 prefill 任务分发到合适的 prefill worker
 - 感知各 worker 的负载状态，做智能路由
 - 在 prefill 完成后，将 decode 任务路由到合适的 decode worker
@@ -63,12 +64,14 @@ class DisaggRouter:
 ### 1.2 Prefill Worker
 
 **职责：**
+
 - 加载模型权重
 - 接收 prompt，执行完整的 prefill 前向传播
 - 生成 KV Cache，通过 KV Transfer Layer 传输到 decode worker
 - 传输完成后释放本地 KV Cache 空间
 
 **关键特征：**
+
 - 优化目标是 **最大化 prefill 吞吐（tokens/s）**
 - 通常使用较大的 batch size
 - KV Cache 空间需求相对较小（用完即释放）
@@ -77,12 +80,14 @@ class DisaggRouter:
 ### 1.3 Decode Worker
 
 **职责：**
+
 - 加载模型权重
 - 接收从 prefill worker 传来的 KV Cache
 - 执行 autoregressive decode，逐 token 生成
 - 管理大量并发 decode 序列的 KV Cache
 
 **关键特征：**
+
 - 优化目标是 **最大化并发序列数** 和 **稳定的 TPOT**
 - KV Cache 占据大量显存
 - 不执行 prefill，所以没有 TPOT spike
@@ -90,6 +95,7 @@ class DisaggRouter:
 ### 1.4 KV Transfer Layer
 
 **职责：**
+
 - 将 prefill worker 生成的 KV Cache 高效传输到 decode worker
 - 支持多种传输协议：NIXL、P2P NCCL、Mooncake 等
 - 处理传输失败和重试
@@ -122,6 +128,7 @@ KV Cache 的数据量可能非常大。以 Llama-3-70B 为例：
 ### 1.5 Metadata Service
 
 **职责：**
+
 - Worker 注册和健康检查
 - KV Cache 位置索引（哪个 KV Cache 在哪个节点上）
 - 协调 prefill → decode 的切换流程
@@ -435,6 +442,7 @@ DistServe 相比 Splitwise 的额外提升主要来自：
 | Metadata Service | 协调管理 | 健康检查、KV 位置索引 |
 
 **论文启示：**
+
 - Splitwise 提出了分离的基本框架和配比公式
 - DistServe 进一步优化了并行策略选择和 Goodput 指标
 - 两篇论文都验证了分离架构在高负载场景下的显著收益

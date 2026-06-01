@@ -508,6 +508,7 @@ vllm:cpu_cache_usage_perc           # CPU swap space 使用率
 ---
 
 **核心总结：**
+
 - **Swap** 适合 KV Cache 大、重算代价高的场景
 - **Recompute** 适合 KV Cache 小、CPU 内存有限的场景
 - 减少 preemption 的发生比选择更好的 preemption 策略更重要

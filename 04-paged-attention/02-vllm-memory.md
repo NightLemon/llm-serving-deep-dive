@@ -577,6 +577,7 @@ v1 架构的核心理念是**简化**——移除不必要的抽象层，让代�
 ---
 
 **建议的源码阅读顺序：**
+
 1. `block_pool.py` — 理解物理 block 的生命周期
 2. `kv_cache_manager.py` — 理解请求级别的 block 分配逻辑
 3. `kv_cache_coordinator.py` — 理解多层协调（可跳过，除非研究 hybrid attention）

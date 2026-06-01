@@ -227,11 +227,13 @@ class P2pNcclConnector(KVConnectorBase_V1):
 ### 3.4 适用场景与局限
 
 **优势：**
+
 - 实现简单，与 PyTorch 生态无缝集成
 - 同机 NVLink 场景下带宽极高（450+ GB/s on H100）
 - 不需要额外的传输库依赖
 
 **局限：**
+
 - NCCL 的 P2P 操作需要 prefill 和 decode worker 在同一个 NCCL group 中
 - 跨节点时依赖 NCCL 的 socket/IB 后端，性能不如专用 RDMA 方案
 - NCCL 的集合通信语义对 KV Cache 的 scatter-gather 传输不太友好
@@ -464,6 +466,7 @@ kv_fp16 = decompress_kv_cache(compressed_kv, scale)
 ```
 
 **压缩传输的 trade-off：**
+
 - 优势：传输数据量减少 2-4x，对网络带宽要求降低
 - 代价：压缩/解压需要额外的 GPU 计算时间 + 精度损失
 

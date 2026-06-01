@@ -720,6 +720,7 @@ VLLM_LOGGING_LEVEL=DEBUG vllm serve ... \
 | `KVTransferConfig` | `config.py` | 配置管理 |
 
 **核心设计模式：**
+
 1. **Strategy Pattern**：通过 connector 抽象支持多种传输协议
 2. **Pipeline**：逐层计算+传输流水线，最大化重叠
 3. **Factory**：connector 工厂方法，支持自定义扩展

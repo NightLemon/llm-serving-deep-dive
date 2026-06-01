@@ -15,6 +15,7 @@
 ### 1. PagedAttention 原理深入（01-paged-attention.md）
 
 **论文精读：**
+
 - [Efficient Memory Management for LLM Serving with PagedAttention](https://arxiv.org/abs/2309.06180)
 - 类比操作系统：Virtual Address → Physical Block, Page Table → Block Table
 - 为什么 LLM 推理的显存管理问题类似 OS？—— 动态增长、不可预知长度
@@ -22,12 +23,14 @@
 - Copy-on-Write：beam search 场景下的 KV 共享
 
 **与传统方案的对比：**
+
 - 传统连续分配：预分配 `max_seq_len` 的显存，浪费率 60-80%
 - PagedAttention：按需分配 block，浪费仅 < 4%（最后一个 block 的内部碎片）
 
 ### 2. vLLM v1 内存管理源码走读（02-vllm-memory.md）
 
 **核心文件：**
+
 - `vllm/v1/core/block_pool.py` — 物理 block 池管理
   - `BlockPool.__init__`：初始化所有物理 block
   - `allocate` / `free`：block 的分配与回收
@@ -65,10 +68,12 @@
   - 缺点：需要额外计算
 
 **源码走读：**
+
 - vLLM Scheduler 中的 preemption 触发条件
 - `preemption_mode` 配置项
 
 **何时选择 swap vs recompute？**
+
 - 短 prompt + 长生成 → swap 更优（KV 大、重算贵）
 - 长 prompt + 短生成 → recompute 也可接受
 - 可用 CPU 内存不足 → 只能 recompute
@@ -76,14 +81,17 @@
 ### 4. 内存碎片分析（04-fragmentation.md）
 
 **内部碎片：**
+
 - 最后一个 block 可能未填满（block_size=16 但只用了 3 个 slot）
 - 碎片率 = 平均浪费 / block_size ≈ 50% * (block_size - 1) / avg_seq_len
 
 **外部碎片：**
+
 - PagedAttention 基本消除了外部碎片
 - 但 block_size 的选择影响内部碎片 vs kernel 效率的权衡
 
 **长期运行问题：**
+
 - GPU memory allocator 的碎片化（cuMem）
 - vLLM 的 `--enforce-eager` 与 CUDA Graph 对内存布局的影响
 

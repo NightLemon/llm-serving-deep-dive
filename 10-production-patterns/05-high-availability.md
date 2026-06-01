@@ -751,6 +751,7 @@ LLM 推理服务的高可用设计要点：
 ---
 
 > **延伸阅读：**
+>
 > - [vLLM Sleep Mode 文档](https://docs.vllm.ai/en/latest/)
 > - Meta "Reliability at Scale" 论文（GPU 集群故障分析）
 > - Google "ML Infra Reliability" 最佳实践

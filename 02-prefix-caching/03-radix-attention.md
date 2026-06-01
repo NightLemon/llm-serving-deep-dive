@@ -407,11 +407,13 @@ def _collect_evictable_leaves(self) -> list[TreeNode]:
 ### 4.1 匹配效率
 
 **vLLM APC：**
+
 - 每个 block 需要一次 hash 计算 + 一次 dict lookup
 - $n$ 个 block 的前缀需要 $n$ 次 lookup
 - 所有 lookup 都是 O(1)，总复杂度 O(n)
 
 **SGLang RadixAttention：**
+
 - 沿树路径遍历，每个内部节点需要一次 dict lookup + 一次序列比较
 - 树的深度通常远小于 block 数
 - 但每个节点的序列比较是 O(m)，m 为节点 token 数
@@ -421,10 +423,12 @@ def _collect_evictable_leaves(self) -> list[TreeNode]:
 ### 4.2 共享模式
 
 **vLLM APC 擅长的场景：**
+
 - 大量请求共享同一个 system prompt（一条直线前缀）
 - 简单的前缀复用模式
 
 **SGLang RadixAttention 擅长的场景：**
+
 - Tree-of-thought：从同一前缀分叉出多个推理路径
 - Multi-turn 对话：不同用户的对话在 system prompt 处合并
 - Fork-join 模式：先分叉探索，再汇总

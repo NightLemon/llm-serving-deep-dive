@@ -228,6 +228,7 @@ Anthropic 的 cache TTL 为 5 分钟，但有 **自动刷新** 机制：
 ### 4.1 双轨制：隐式 vs 显式
 
 **隐式缓存（Implicit Caching）：**
+
 - 自动触发，无需任何代码修改
 - Google 自动检测重复的前缀并缓存
 - 无额外 write 费用
@@ -235,6 +236,7 @@ Anthropic 的 cache TTL 为 5 分钟，但有 **自动刷新** 机制：
 - 支持 Gemini 1.5 Pro/Flash 及以上
 
 **显式缓存（Explicit Caching / Context Caching API）：**
+
 - 用户通过 API 手动创建缓存
 - 指定 TTL（默认 1 小时，最长 48 小时）
 - 存储费用 + 使用折扣

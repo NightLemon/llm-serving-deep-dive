@@ -543,6 +543,7 @@ python -m vllm.entrypoints.openai.api_server \
 ---
 
 **关键结论：**
+
 1. **内部碎片**是 PagedAttention 唯一的本质碎片来源，但在 `block_size=16` 下通常 < 4%
 2. **外部碎片**被完全消除——这是 PagedAttention 最重要的贡献
 3. **Allocator 碎片**是长期运行中的实际痛点，需要通过工程手段（预分配、`expandable_segments`、定期重启）缓解
